@@ -15,7 +15,7 @@ const grandstander = Grandstander({
 
 const opensans = Open_Sans({
   subsets: ['latin'],
-  weight: ['400', '700'],
+  weight: ['300', '400', '700'],
 })
 
 export default function RootLayout({

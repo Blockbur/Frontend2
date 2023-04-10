@@ -25,6 +25,11 @@ module.exports = {
         grandstander: ['var(--grandstander-font)', 'sans-serif'],
         opensans: ['var(--opensans-font)', 'sans-serif'],
       },
+      backgroundImage: {
+        notes: "url('/notesBg.png')",
+        trees: "url('/trees.png')",
+        brand: "url('/logoBg.png')",
+      },
     },
   },
   plugins: [],

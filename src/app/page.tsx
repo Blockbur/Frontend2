@@ -8,6 +8,8 @@ import kinkyOwnership from '../assets/kinkyOwnership.png'
 import discordIcon from '../assets/discord.svg'
 import twitterLogo from '../assets/twitter.svg'
 
+import heroImg from '../assets/hero.png'
+
 import controlGray from '../assets/core/controlGrade.png'
 import controlGradient from '../assets/core/controlGradient.png'
 import noteGray from '../assets/core/noteGray.png'
@@ -69,7 +71,7 @@ export default function Home() {
       hoverImage: sneezeHover,
     },
     {
-      name: 'Gulp',
+      name: 'LADY KINKY',
       title: 'The Enigmatic Figure',
       band: 'Weirds',
       musicGenre: 'All',
@@ -110,7 +112,7 @@ export default function Home() {
   ]
 
   return (
-    <div className="max-w-screen w-full min-h-screen bg-purple700 text-white">
+    <div className="max-w-screen w-full min-h-screen bg-purple600 text-white bg-notes bg-bottom bg-no-repeat">
       <div className="w-full bg-purple400/70 fixed">
         <header className="max-w-[1120px] w-full mx-auto flex items-center justify-between py-5">
           <Image src={logo} alt="Werids logo" />
@@ -150,90 +152,145 @@ export default function Home() {
           </button>
         </header>
       </div>
-      <section>
-        <div>
-          <div>
-            <h1>WELCOME TO WEIRD BAND!</h1>
-            <p>
+      <section className="max-w-screen w-full bg-trees bg-no-repeat bg-cover bg-top h-[898px]">
+        <div className="max-w-[1120px] w-full mx-auto flex items-center justify-between pt-[178px]">
+          <div className="w-[452px] flex flex-col">
+            <h1 className="text-[5rem] font-black font-grandstander leading-none">
+              WELCOME TO WEIRD BAND!
+            </h1>
+            <p className="text-[1.25rem]">
               Each weird character entitles you to be part of an intergalactic
               adventure full of music. Make your own Weird Band and be a Weirdo!
             </p>
-            <button>MINT NOW!</button>
+            <button className="text-white font-bold py-2 px-8 rounded-[60px] bg-green500 w-[190px] mt-4">
+              MINT NOW!
+            </button>
           </div>
-          <Image src="" alt="" />
+          <Image width={541} height={491} src={heroImg} alt="" />
         </div>
       </section>
-      <section>
-        <div>
-          <div>
-            <h1>PROJECT CORE</h1>
-            <p>
-              Weird Band is an intellectual property that combines cartoon,
-              music and game into a unique Web3 experience.
-            </p>
-          </div>
-          <div>
-            {coreItems.map((item) => {
-              return (
-                <div key={item.title}>
-                  <h1>{item.title}</h1>
-                  <Image
-                    src={item.disabledImg}
-                    width={192}
-                    height={174}
-                    alt=""
-                  />
-                  <Image src={item.hoverImg} width={192} height={174} alt="" />
-                  <p>{item.description}</p>
-                </div>
-              )
-            })}
-          </div>
-        </div>
-      </section>
-      <section>
-        <div>
-          <div>
-            <h1>TRUE OWNERSHIP</h1>
-            <p>
-              Weird Band is a community-based Web3 project. All WEIRD characters
-              can be obtained as NFTs.
-            </p>
-            <p>
-              Each WEIRD character has a unique set of sounds associated with
-              them, which together with their personalities, give them a unique
-              identity.
-            </p>
-            <strong>Each character also has a predefined supply!</strong>
-          </div>
-          <Image
-            src={kinkyOwnership}
-            alt="Kinky with security shield at hers side"
-          />
-        </div>
-      </section>
-      <section>
-        <div>
-          <div>
-            <h1>Meet the first characters</h1>
-            <div>
-              {characters.map((char) => {
+      <section className="-mt-24 max-w-screen w-full">
+        <div className="max-w-[1140px] w-full mx-auto">
+          <div className="w-full flex flex-col">
+            <div className="w-[680px] mx-auto text-center">
+              <h1 className="font-grandstander font-black uppercase text-[4.35rem] leading-none">
+                PROJECT CORE
+              </h1>
+              <p className="text-[1.25rem] mt-4">
+                Weird Band is an intellectual property that combines cartoon,
+                music and game into a unique Web3 experience.
+              </p>
+            </div>
+            <div className="w-full flex justify-between mt-14">
+              {coreItems.map((item) => {
                 return (
-                  <div key={char.name}>
-                    <Image src={char.disabledImage} alt="" />
-                    <Image src={char.hoverImage} alt="" />
-                    <h1>{char.name}</h1>
-                    <strong>{char.title}</strong>
-                    <ul>
-                      <li>Band: {char.band}</li>
-                      <li>Music Genre: {char.musicGenre}</li>
-                      <li>Role: {char.role}</li>
-                    </ul>
+                  <div
+                    key={item.title}
+                    className="w-[340px] px-10 pt-[54px] pb-16 rounded-[72px] border border-transparent bg-purple800/30 flex flex-col items-center group hover:cursor-pointer hover:bg-transparent hover:border-white transition duration-500"
+                  >
+                    <h1 className="text-[2.5rem] font-grandstander font-black text-white">
+                      {item.title}
+                    </h1>
+                    <Image
+                      className="group-hover:hidden"
+                      src={item.disabledImg}
+                      width={192}
+                      height={174}
+                      alt=""
+                    />
+                    <Image
+                      className="hidden group-hover:block"
+                      src={item.hoverImg}
+                      width={192}
+                      height={174}
+                      alt=""
+                    />
+                    <p className="w-[274px] text-[1.25rem] text-center font-light mt-4">
+                      {item.description}
+                    </p>
                   </div>
                 )
               })}
             </div>
-            <button>Check our NFTs</button>
+          </div>
+          <div className="w-full m-9 flex justify-between items-center">
+            <div className="max-w-[470px] w-full flex flex-col">
+              <h1 className="font-grandstander font-black text-[4.35rem] text-left leading-none">
+                TRUE OWNERSHIP
+              </h1>
+              <div className="flex flex-col gap-6 text-[1.25rem] mt-9">
+                <p>
+                  Weird Band is a community-based Web3 project. All WEIRD
+                  characters can be obtained as NFTs.
+                </p>
+                <p>
+                  Each WEIRD character has a unique set of sounds associated
+                  with them, which together with their personalities, give them
+                  a unique identity.
+                </p>
+                <strong className="font-bold">
+                  Each character also has a predefined supply!
+                </strong>
+              </div>
+            </div>
+            <Image
+              width={483}
+              height={608}
+              src={kinkyOwnership}
+              alt="Kinky with security shield at hers side"
+            />
+          </div>
+        </div>
+      </section>
+      <section className="max-w-screen w-full bg-brand bg-cover bg-no-repeat">
+        <div className="max-w-screen w-full bg-purple500/50">
+          <div className="max-w-[1108px] w-full mx-auto py-[88px]">
+            <div className="w-full mx-auto">
+              <h1 className="font-grandstander font-black text-[4.35rem] text-center">
+                Meet the first characters
+              </h1>
+              <div className="w-full flex justify-between mt-16">
+                {characters.map((char) => {
+                  return (
+                    <div
+                      className="w-[340px] h-[520px] px-8 pt-8 pb-10 rounded-[72px] border border-transparent bg-[#09071E]/30 flex flex-col items-center group hover:cursor-pointer hover:bg-transparent hover:border-white transition duration-500"
+                      key={char.name}
+                    >
+                      <Image
+                        width={276}
+                        height={280}
+                        className="group-hover:hidden"
+                        src={char.disabledImage}
+                        alt=""
+                      />
+                      <Image
+                        width={368}
+                        height={365}
+                        className="hidden group-hover:block group-hover:-translate-y-16 scale-150"
+                        src={char.hoverImage}
+                        alt=""
+                      />
+                      <div className="w-[274px] text-[1.25rem] text-center font-light mt-4">
+                        <h1 className="text-[2.5rem] font-grandstander font-black text-white">
+                          {char.name}
+                        </h1>
+                        <strong className="font-bold text-[1.35rem]">
+                          {char.title}
+                        </strong>
+                        <ul>
+                          <li>Band: {char.band}</li>
+                          <li>Music Genre: {char.musicGenre}</li>
+                          <li>Role: {char.role}</li>
+                        </ul>
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+              <button className="text-white font-bold py-2 px-8 rounded-[60px] bg-green500 w-[354px] mt-4">
+                Check our NFTs
+              </button>
+            </div>
           </div>
         </div>
       </section>
