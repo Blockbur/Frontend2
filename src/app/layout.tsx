@@ -1,22 +1,11 @@
 import React from 'react'
 // eslint-disable-next-line camelcase
-import { Open_Sans, Grandstander } from '@next/font/google'
 import './globals.css'
 
 export const metadata = {
   title: 'Weirds',
   description: 'Welcome to Weirds Band',
 }
-
-const grandstander = Grandstander({
-  subsets: ['latin'],
-  weight: ['900'],
-})
-
-const opensans = Open_Sans({
-  subsets: ['latin'],
-  weight: ['300', '400', '700'],
-})
 
 export default function RootLayout({
   children,
@@ -25,17 +14,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={(grandstander.className, opensans.className)}>
-        <style>
-          {`
-            :root {
-              --grandstander-font: ${grandstander.style.fontFamily};
-              --opensans-font: ${opensans.style.fontFamily};
-            }
-          `}
-        </style>
-        {children}
-      </body>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Grandstander:wght@800;900&family=Open+Sans:wght@300;400;800&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body>{children}</body>
     </html>
   )
 }

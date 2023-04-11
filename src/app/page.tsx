@@ -32,6 +32,9 @@ import conceptImage from '../assets/concept.png'
 import brand from '../assets/brand.png'
 import roadmap from '../assets/roadmap.png'
 
+import * as Accordion from '@radix-ui/react-accordion'
+import { CaretDown, X } from 'phosphor-react'
+
 export default function Home() {
   const team = [
     {
@@ -111,8 +114,61 @@ export default function Home() {
     { label: 'WEIRD PAPER', href: '#' },
   ]
 
+  const faq = [
+    {
+      value: 'faq1',
+      question: 'Wat is a Weird Band?',
+      paragraphs: [
+        'Weird Band is an original intellectual property that combines music, cartoons and games into a unique Web3 experience.',
+        'In Weird Band, the community follows a band of musical aliens that leave their home planet, where music is marginalized, looking for a place in the universe that accepts their music.',
+        'Being both the instruments and instrumentalists, these weird beings will captivate humanity with the enveloping music they create with their bodies.',
+      ],
+      list: [],
+    },
+    {
+      value: 'faq2',
+      question: 'How to obtain Weird Band characters?',
+      paragraphs: [
+        'Weird Band is a community-based Web3 project. All Weird characters can be obtained as NFTs.',
+        'Each character has a unique timbre and a set of sounds associated with them, which along with their personalities, give them a unique identity.',
+        'The first characters: Sneeze, Gulp and Lady Kinky will be of “Legend” rarity, with a very small supply.',
+        'To join the sales the user needs to be Whitelisted.',
+        'Seasonally, new characters will be added with higher supply and lower rarities.',
+      ],
+      list: [],
+    },
+    {
+      value: 'faq3',
+      question: 'How can I get whitelisted?',
+      paragraphs: ['You can get whitelists in several ways:'],
+      list: [
+        '- Collabs',
+        '- Actively participating in our Discord',
+        '- Participating and interacting frequently on Twitter',
+      ],
+    },
+    {
+      value: 'faq4',
+      question: 'Is Weird Band an investment?',
+      paragraphs: [
+        'No. Weird Band is an original intellectual property that will be exploited in various products such as games, music videos and collectibles.',
+        'Weird Band NFTs will be very useful in the Weird Band ecosystem, but they do not offer guarantees of financial returns.',
+        'Weird Band characters should not be considered investments.',
+      ],
+      list: [],
+    },
+    {
+      value: 'faq5',
+      question: 'How to play Weird Band?',
+      paragraphs: [
+        'The first Weird Band Game will be a Rythm Game free to play but with the possibilit to truly own your in-game characters as NFTs. The alpha is scheduled to Q4 2023.',
+      ],
+      list: [],
+    },
+  ]
+
   return (
-    <div className="max-w-screen w-full min-h-screen bg-purple600 text-white bg-notes bg-bottom bg-no-repeat">
+    <div className="max-w-screen w-full min-h-screen bg-purple600 text-white bg-notes bg-no-repeat bg-cover">
       <div className="w-full bg-purple400/70 fixed z-20">
         <header className="max-w-[1120px] w-full mx-auto flex items-center justify-between py-5">
           <Image src={logo} alt="Werids logo" />
@@ -382,7 +438,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className="max-w-screen w-full bg-beach bg-fit 2xl:bg-cover bg-no-repeat h-[400px]">
+      <section className="max-w-screen w-full bg-beach bg-fit 2xl:bg-cover bg-no-repeat h-[400px] flex items-center">
         <div className="max-w-[1026px] w-full mx-auto flex justify-between items-center py-10">
           <div className="max-w-[600px] w-full flex flex-col">
             <h1 className="font-grandstander font-extrabold text-[3.15rem] leading-none">
@@ -409,43 +465,106 @@ export default function Home() {
           </button>
         </div>
       </section>
-      <section>{/* FAQ WILL COME HERE */}</section>
-      <footer>
-        <div>
-          <div>
-            <p>Privacy Policy</p>
-            <p>
-              Privacy Policy Your privacy is important to us. It is WEIRD BAND`s
-              policy to respect your privacy regarding any information we may
-              collect from you across our website, WEIRD BAND, and other sites
-              we own and operate.
-            </p>
-            <p>
-              We only ask for personal information when we truly need it to
-              provide a service to you. We collect it by fair and lawful means,
-              with your knowledge and consent. We also let you know why we’re
-              collecting it and how it will be used.
-            </p>
-            <p>
-              We only retain collected information for as long as necessary to
-              provide you with your requested service. What data we store, we’ll
-              protect within commercially acceptable means to prevent loss and
-              theft, as well as unauthorised access, disclosure, copying, use or
-              modification.
-            </p>
-            <p>
-              We don’t share any personally identifying information publicly or
-              with third-parties, except when required to by law. Our website
-              may link to external sites that are not operated by us.
-            </p>
-            <p>
-              Please be aware that we have no control over the content and
-              practices of these sites, and cannot accept responsibility or
-              liability for their respective privacy policies.
-            </p>
+      <section className="max-w-[1000px] w-full mx-auto pb-[223px] pt-24">
+        <div className="w-full flex flex-col items-center">
+          <h1 className="font-grandstander font-black text-[4.35rem] uppercase leading-none">
+            FAQ
+          </h1>
+          <p className="text-[1.25rem] mt-5">
+            See answers to the most frequently asked questions about Weird Band!
+          </p>
+          <Accordion.Root type="multiple" className="mt-10 flex flex-col gap-7">
+            {faq.map((item) => {
+              return (
+                <Accordion.Item
+                  key={item.question}
+                  value={item.value}
+                  className="flex flex-col gap-7"
+                >
+                  <Accordion.Header>
+                    <Accordion.Trigger>
+                      <div className="w-[988px] bg-purple200/50 flex items-center justify-between px-12 py-7">
+                        <p className="font-grandstander font-black text-[2.25rem] uppercase leading-none">
+                          {item.question}
+                        </p>
+                        <CaretDown size={32} weight="bold" />
+                      </div>
+                    </Accordion.Trigger>
+                  </Accordion.Header>
+                  <Accordion.Content className="bg-purple300 w-[988px] px-14 py-10">
+                    <header className="w-full flex justify-between items-start">
+                      <span className="font-grandstander font-black text-[1.85rem]">
+                        {item.question}
+                      </span>
+                      <Accordion.Trigger>
+                        <X size={28} weight="bold" />
+                      </Accordion.Trigger>
+                    </header>
+                    <div className="flex flex-col gap-5 mt-5">
+                      {item.paragraphs.map((par) => {
+                        return (
+                          <p className="text-[1.25rem]" key={par}>
+                            {par}
+                          </p>
+                        )
+                      })}
+                      {item.list ? (
+                        <ul className="flex flex-col gap-1 mt-5">
+                          {item.list.map((item) => {
+                            return (
+                              <li key={item} className="text-[1.25rem]">
+                                {item}
+                              </li>
+                            )
+                          })}
+                        </ul>
+                      ) : null}
+                    </div>
+                  </Accordion.Content>
+                </Accordion.Item>
+              )
+            })}
+          </Accordion.Root>
+        </div>
+      </section>
+      <footer className="max-w-screen w-full bg-purple300 py-9">
+        <div className="max-w-[1120px] w-full mx-auto flex justify-between items-center">
+          <div className="max-w-[612px] w-full text-[0.65rem]">
+            <p className="italic">Privacy Policy</p>
+            <div className="flex flex-col">
+              <p className="italic">
+                Privacy Policy Your privacy is important to us. It is WEIRD
+                BAND`s policy to respect your privacy regarding any information
+                we may collect from you across our website, WEIRD BAND, and
+                other sites we own and operate.
+              </p>
+              <p className="italic">
+                We only ask for personal information when we truly need it to
+                provide a service to you. We collect it by fair and lawful
+                means, with your knowledge and consent. We also let you know why
+                we’re collecting it and how it will be used.
+              </p>
+              <p className="italic">
+                We only retain collected information for as long as necessary to
+                provide you with your requested service. What data we store,
+                we’ll protect within commercially acceptable means to prevent
+                loss and theft, as well as unauthorised access, disclosure,
+                copying, use or modification.
+              </p>
+              <p className="italic">
+                We don’t share any personally identifying information publicly
+                or with third-parties, except when required to by law. Our
+                website may link to external sites that are not operated by us.
+              </p>
+              <p className="italic">
+                Please be aware that we have no control over the content and
+                practices of these sites, and cannot accept responsibility or
+                liability for their respective privacy policies.
+              </p>
+            </div>
           </div>
-          <div>
-            <span>weirdband@2023</span>
+          <div className="flex flex-col items-center gap-2">
+            <span className="text-2xl">weirdband@2023</span>
             <div className="flex items-center gap-4">
               <Link href="#">
                 <Image
@@ -464,8 +583,8 @@ export default function Home() {
                 />
               </Link>
             </div>
-            <Image src={brand} alt="Weird brand logo" />
           </div>
+          <Image src={brand} alt="Weird brand logo" />
         </div>
       </footer>
     </div>

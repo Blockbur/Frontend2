@@ -22,11 +22,11 @@ module.exports = {
         black: '#1A1A1A',
       },
       fontFamily: {
-        grandstander: ['var(--grandstander-font)', 'sans-serif'],
-        opensans: ['var(--opensans-font)', 'sans-serif'],
+        grandstander: ['Grandstander', 'sans-serif'],
+        opensans: ['Open Sans', 'sans-serif'],
       },
       backgroundImage: {
-        notes: "url('/notesBg.png')",
+        notes: "url('/notesbg.png')",
         trees: "url('/trees.png')",
         brand: "url('/logoBg.png')",
         space: "url('/planetsBg.png')",
