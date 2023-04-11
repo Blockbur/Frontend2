@@ -46,7 +46,7 @@ export default function Home() {
     },
     {
       photo: gabriel,
-      name: 'CAIO GRILO',
+      name: 'GABRIEL SALOMÃO',
       role: 'COO / Co-founder ',
     },
   ]
@@ -113,7 +113,7 @@ export default function Home() {
 
   return (
     <div className="max-w-screen w-full min-h-screen bg-purple600 text-white bg-notes bg-bottom bg-no-repeat">
-      <div className="w-full bg-purple400/70 fixed">
+      <div className="w-full bg-purple400/70 fixed z-20">
         <header className="max-w-[1120px] w-full mx-auto flex items-center justify-between py-5">
           <Image src={logo} alt="Werids logo" />
           <nav>
@@ -188,7 +188,7 @@ export default function Home() {
                     key={item.title}
                     className="w-[340px] px-10 pt-[54px] pb-16 rounded-[72px] border border-transparent bg-purple800/30 flex flex-col items-center group hover:cursor-pointer hover:bg-transparent hover:border-white transition duration-500"
                   >
-                    <h1 className="text-[2.5rem] font-grandstander font-black text-white">
+                    <h1 className="text-[2.5rem] font-grandstander font-black text-white opacity-50 group-hover:opacity-100">
                       {item.title}
                     </h1>
                     <Image
@@ -205,7 +205,7 @@ export default function Home() {
                       height={174}
                       alt=""
                     />
-                    <p className="w-[274px] text-[1.25rem] text-center font-light mt-4">
+                    <p className="w-[274px] text-[1.25rem] text-center font-light mt-4 opacity-50 group-hover:opacity-100">
                       {item.description}
                     </p>
                   </div>
@@ -242,18 +242,18 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className="max-w-screen w-full bg-brand bg-cover bg-no-repeat">
+      <section className="max-w-screen w-full bg-brand bg-fit bg-center bg-no-repeat 2xl:bg-cover">
         <div className="max-w-screen w-full bg-purple500/50">
           <div className="max-w-[1108px] w-full mx-auto py-[88px]">
-            <div className="w-full mx-auto">
-              <h1 className="font-grandstander font-black text-[4.35rem] text-center">
+            <div className="w-full mx-auto flex flex-col items-center">
+              <h1 className="font-grandstander font-black text-[4.35rem]">
                 Meet the first characters
               </h1>
               <div className="w-full flex justify-between mt-16">
                 {characters.map((char) => {
                   return (
                     <div
-                      className="w-[340px] h-[520px] px-8 pt-8 pb-10 rounded-[72px] border border-transparent bg-[#09071E]/30 flex flex-col items-center group hover:cursor-pointer hover:bg-transparent hover:border-white transition duration-500"
+                      className="w-[340px] h-[520px] px-8 pt-6 pb-8 rounded-[72px] border border-transparent bg-[#09071E]/30 flex flex-col items-center group hover:cursor-pointer hover:bg-transparent hover:border-white transition duration-500"
                       key={char.name}
                     >
                       <Image
@@ -270,11 +270,11 @@ export default function Home() {
                         src={char.hoverImage}
                         alt=""
                       />
-                      <div className="w-[274px] text-[1.25rem] text-center font-light mt-4">
-                        <h1 className="text-[2.5rem] font-grandstander font-black text-white">
+                      <div className="w-[274px] text-[1.25rem] text-center font-light mt-4 opacity-50 group-hover:opacity-100">
+                        <h1 className="text-[2.5rem] font-grandstander font-black text-white leading-none">
                           {char.name}
                         </h1>
-                        <strong className="font-bold text-[1.35rem]">
+                        <strong className="font-bold text-[1.35rem] uppercase">
                           {char.title}
                         </strong>
                         <ul>
@@ -287,17 +287,19 @@ export default function Home() {
                   )
                 })}
               </div>
-              <button className="text-white font-bold py-2 px-8 rounded-[60px] bg-green500 w-[354px] mt-4">
+              <button className="text-white text-2xl font-bold py-2 px-8 rounded-[60px] bg-green500 w-[354px] mt-16 hover:bg-opacity-80 transition duration-500">
                 Check our NFTs
               </button>
             </div>
           </div>
         </div>
       </section>
-      <section>
-        <div>
-          <div>
-            <h1>Weird Places</h1>
+      <section className="max-w-screen w-full bg-space bg-no-repeat h-[1000px] bg-center relative">
+        <div className="max-w-[428px] w-full absolute bottom-48 right-1/2 left-1/2 translate-x-1/2">
+          <h1 className="font-grandstander font-black text-[4.35rem] uppercase leading-none">
+            Weird Places
+          </h1>
+          <div className="w-full mt-5 text-[1.25rem] flex flex-col gap-6">
             <p>
               The Places are different backgrounds and important key points in
               the history of the Weirds. You can combine places to see your
@@ -307,47 +309,72 @@ export default function Home() {
               When revealing your NFT, you have a 1% chance to find a Weird
               Place, a higher rarity background. Are you lucky?
             </p>
-            <button>Are you luck?</button>
           </div>
+          <button className="text-white text-2xl font-bold py-2 px-8 rounded-[60px] bg-green500 w-[354px] mt-4 hover:bg-opacity-80 transition duration-500">
+            Are you luck?
+          </button>
         </div>
       </section>
-      <section>
-        <div>
-          <div>
-            <h1>Game</h1>
-            <p>
+      <section className="max-w-screen w-full bg-brand bg-fit bg-center bg-no-repeat 2xl:bg-cover h-[1000px]">
+        <div className="max-w-[1148px] w-full mx-auto">
+          <div className="w-full flex flex-col items-center py-12 text-center">
+            <h1 className="font-grandstander font-black text-[4.35rem]">
+              Game
+            </h1>
+            <p className="mt-3 text-[1.25rem] w-[848px]">
               Soon you`ll be able to combine your Weirds to create a band in the
               Weird Band Rhythm Game. Carve your way to fame and compete for
               awesome prizes in our 1st game!
             </p>
-            <Image src={conceptImage} alt="Game concept" />
+            <Image className="w-full" src={conceptImage} alt="Game concept" />
             <footer>
-              <span>
+              <span className="text-[1.25rem]">
                 *Splash art to display the concept. Not actual game footage.
               </span>
             </footer>
           </div>
         </div>
       </section>
-      <section>
-        <div>
-          <h1>Roadmap</h1>
-          <p>See the next steps on our Weird Roadmap!</p>
-          <Image src={roadmap} alt="" />
+      <section className="max-w-screen w-full bg-purple600">
+        <div className="max-w-[1148px] w-full mx-auto flex flex-col items-center py-20">
+          <div>
+            <h1 className="font-grandstander font-black text-[4.35rem] text-center">
+              Roadmap
+            </h1>
+            <p className="text-[1.25rem]">
+              See the next steps on our Weird Roadmap!
+            </p>
+          </div>
+          <Image className="mt-6" src={roadmap} alt="" />
         </div>
       </section>
-      <section>
-        <div>
-          <h1>Team</h1>
-          <p>Most WEIRD team (or band, we don`t know) in the universe!</p>
-          <div>
+      <section className="max-w-screen w-full bg-[#17124E] py-24">
+        <div className="max-w-[1112px] w-full mx-auto flex flex-col items-center">
+          <h1 className="font-grandstander font-black text-[4.35rem] text-center">
+            Team
+          </h1>
+          <p className="text-[1.25rem]">
+            Most WEIRD team (or band, we don`t know) in the universe!
+          </p>
+          <div className="w-full flex justify-between mt-14">
             {team.map((member) => {
               return (
-                <div key={member.name}>
-                  <Image src={member.photo} alt="" />
-                  <div>
-                    <h1>{member.name}</h1>
-                    <span>{member.role}</span>
+                <div
+                  className="group relative h-[380px] w-[344px] cursor-pointer"
+                  key={member.name}
+                >
+                  <Image
+                    className="group-hover:opacity-30"
+                    src={member.photo}
+                    alt=""
+                  />
+                  <div className="hidden group-hover:flex absolute left-12 right-12 top-24 flex-col items-center gap-4 text-center">
+                    <h1 className="text-[3.15rem] uppercase font-extrabold leading-none">
+                      {member.name}
+                    </h1>
+                    <span className="text-[1.25rem] font-extrabold">
+                      {member.role}
+                    </span>
                   </div>
                 </div>
               )
@@ -355,23 +382,31 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section>
-        <div>
-          <div>
-            <h1>MEET N`MINT</h1>
-            <p>
-              Weird Band is unlike anything you`ve ever seen. And it came to
-              stay! Meet the project and see for yourself!
-            </p>
-            <p>
-              Afterwards, come back here and click the button to Mint your first
-              NFT weird character.
-            </p>
-            <footer>
-              <span>*Only users on the Whitelist will be able to Mint.</span>
-            </footer>
+      <section className="max-w-screen w-full bg-beach bg-fit 2xl:bg-cover bg-no-repeat h-[400px]">
+        <div className="max-w-[1026px] w-full mx-auto flex justify-between items-center py-10">
+          <div className="max-w-[600px] w-full flex flex-col">
+            <h1 className="font-grandstander font-extrabold text-[3.15rem] leading-none">
+              MEET N`MINT
+            </h1>
+            <div className="mt-3 flex flex-col gap-5 text-[1.25rem] text-[#005629]">
+              <p>
+                Weird Band is unlike anything you`ve ever seen. And it came to
+                stay! Meet the project and see for yourself!
+              </p>
+              <p>
+                Afterwards, come back here and click the button to Mint your
+                first NFT weird character.
+              </p>
+              <footer>
+                <span className="text-lg">
+                  *Only users on the Whitelist will be able to Mint.
+                </span>
+              </footer>
+            </div>
           </div>
-          <button>MINT NOW</button>
+          <button className="text-[3.15rem] font-extrabold text-white bg-yellow500 hover:bg-yellow600 transition duration-500 rounded-[42px] w-[360px] py-2">
+            MINT NOW
+          </button>
         </div>
       </section>
       <section>{/* FAQ WILL COME HERE */}</section>

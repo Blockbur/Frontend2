@@ -29,6 +29,8 @@ module.exports = {
         notes: "url('/notesBg.png')",
         trees: "url('/trees.png')",
         brand: "url('/logoBg.png')",
+        space: "url('/planetsBg.png')",
+        beach: "url('/beach.png')",
       },
     },
   },
