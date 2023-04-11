@@ -1,32 +1,24 @@
 import { CircleNotch } from 'phosphor-react'
+import { ButtonHTMLAttributes } from 'react'
 
-interface MintButtonProps {
-  disableMint: boolean
+interface MintButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   mintedByUserAmount: number
   maxSupplyPerUser: number
   walletAddress: string
   isMinting: boolean
-
-  onMint: () => void
 }
 
 export function MintButton({
-  disableMint,
-  onMint,
   walletAddress,
   maxSupplyPerUser,
   mintedByUserAmount,
   isMinting,
+  ...rest
 }: MintButtonProps) {
-  async function handleMintNft() {
-    onMint()
-  }
-
   return (
     <button
-      disabled={disableMint || !walletAddress}
-      onClick={handleMintNft}
-      className="w-full py-4 not:disabled:bg-purple-gradient rounded-xl text-lg text-white font-bold shadow-lg disabled:cursor-not-allowed disabled:bg-gray500"
+      {...rest}
+      className="w-full py-4 bg-yellow500 shadow-[0_0px_10px_rgba(255,189,46,1)] rounded-xl text-lg text-black font-bold disabled:cursor-not-allowed disabled:bg-gray500"
     >
       {isMinting ? (
         <div className="flex items-center gap-3 justify-center">

@@ -1,6 +1,7 @@
 import React from 'react'
 // eslint-disable-next-line camelcase
 import './globals.css'
+import { Header } from '@/components/Header'
 
 export const metadata = {
   title: 'Weirds',
@@ -22,7 +23,10 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body>{children}</body>
+      <body>
+        <Header />
+        <div>{children}</div>
+      </body>
     </html>
   )
 }

@@ -3,21 +3,27 @@ import contractAbi from '../contract/abi.json'
 
 const contractAddress = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS || ''
 
+async function instantiateContract() {
+  const provider = new ethers.BrowserProvider(window.ethereum)
+
+  await provider.send('eth_requestAccounts', [])
+
+  const contractInstance = new ethers.Contract(
+    contractAddress,
+    contractAbi,
+    provider,
+  )
+
+  return contractInstance
+}
+
 export async function getTotalSupply() {
   const { ethereum } = window
 
   if (ethereum) {
-    const provider = new ethers.BrowserProvider(window.ethereum)
+    const contract = await instantiateContract()
 
-    await provider.send('eth_requestAccounts', [])
-
-    const contractInstace = new ethers.Contract(
-      contractAddress,
-      contractAbi,
-      provider,
-    )
-
-    const totalSupply = await contractInstace.maxSupply()
+    const totalSupply = await contract.maxSupply()
 
     const bigNumberReturn = BigInt(totalSupply._hex)
 
@@ -31,17 +37,9 @@ export async function getTotalNFTsMinted() {
   const { ethereum } = window
 
   if (ethereum) {
-    const provider = new ethers.BrowserProvider(window.ethereum)
+    const contract = await instantiateContract()
 
-    await provider.send('eth_requestAccounts', [])
-
-    const contractInstace = new ethers.Contract(
-      contractAddress,
-      contractAbi,
-      provider,
-    )
-
-    const totalNFTsMinted = await contractInstace._tokenIds()
+    const totalNFTsMinted = await contract._tokenIds()
 
     const bigNumberReturn = totalNFTsMinted._hex.toBigInt()
 
@@ -55,17 +53,9 @@ export async function getTotalNFTsMintedByUser(walletAddress: string) {
   const { ethereum } = window
 
   if (ethereum) {
-    const provider = new ethers.BrowserProvider(window.ethereum)
+    const contract = await instantiateContract()
 
-    await provider.send('eth_requestAccounts', [])
-
-    const contractInstace = new ethers.Contract(
-      contractAddress,
-      contractAbi,
-      provider,
-    )
-
-    const totalNFTsMintedByUser = await contractInstace.nftsMintedPerWallet(
+    const totalNFTsMintedByUser = await contract.nftsMintedPerWallet(
       walletAddress,
     )
 
@@ -81,17 +71,9 @@ export async function getMaxSupplyPerWallet() {
   const { ethereum } = window
 
   if (ethereum) {
-    const provider = new ethers.BrowserProvider(window.ethereum)
+    const contract = await instantiateContract()
 
-    await provider.send('eth_requestAccounts', [])
-
-    const contractInstace = new ethers.Contract(
-      contractAddress,
-      contractAbi,
-      provider,
-    )
-
-    const maxSupplyPerWallet = await contractInstace.maxNFTsPerWallet()
+    const maxSupplyPerWallet = await contract.maxNFTsPerWallet()
 
     const bigNumberReturn = BigInt(maxSupplyPerWallet._hex)
 

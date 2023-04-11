@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import contractAbi from '../../contract/abi.json'
 import {
@@ -13,14 +13,18 @@ import { ChangeAmountToMint } from './components/ChangeAmountToMint'
 
 import { ethers } from 'ethers'
 
+interface NFTProps {
+  totalSupply: number | undefined
+  maxSupplyPerWallet: number | undefined
+  totalNFTsMinted: number | undefined
+  totalNFTsMintedByUser: number | undefined
+}
+
 export function Minter() {
-  const [totalSupply, setTotalSupply] = useState<number>(0)
-  const [maxSupplyPerWallet, setMaxSupplyPerWallet] = useState<number>(0)
-  const [userNftsMinted, setUserNftsMinted] = useState<number>(0)
+  const [nft, setNft] = useState<NFTProps>()
+
   const [isMinting, setIsMinting] = useState<boolean>(false)
 
-  const [totalAmountOfNFTsMinted, setTotalAmountOfNFTsMinted] =
-    useState<number>(0)
   const [amountOfNftsToMint, setAmountOfNftsToMint] = useState<number>(0)
   const [walletAddress, setWalletAddress] = useState<string>('')
   const [contractIsEnabled, setContractEnabled] = useState<boolean>(true)
@@ -30,11 +34,13 @@ export function Minter() {
   const nftPrice = 0.01
 
   const blockIncreaseNFTsAmounToMint =
-    totalAmountOfNFTsMinted + amountOfNftsToMint === maxSupplyPerWallet
+    Number(nft?.totalNFTsMinted) + amountOfNftsToMint ===
+    nft?.maxSupplyPerWallet
 
-  const maxSupplyReached = totalAmountOfNFTsMinted === totalSupply
+  const maxSupplyReached = nft?.totalNFTsMinted === nft?.totalSupply
 
-  const maxSupplyPerUserReached = userNftsMinted === maxSupplyPerWallet
+  const maxSupplyPerUserReached =
+    nft?.totalNFTsMintedByUser === nft?.maxSupplyPerWallet
 
   const disableMint =
     !contractIsEnabled || maxSupplyReached || maxSupplyPerUserReached
@@ -76,7 +82,7 @@ export function Minter() {
             )
             console.log('addressIsOnWhitelist', addressIsOnWhitelist)
 
-            if (userNftsMinted + amountOfNftsToMint > 5) {
+            if (Number(nft?.totalNFTsMintedByUser) + amountOfNftsToMint > 5) {
               alert('You can not mint more than 5 NFTs per wallet!')
               setIsMinting(false)
               // eslint-disable-next-line no-throw-literal
@@ -129,8 +135,10 @@ export function Minter() {
     const { ethereum } = window
 
     if (ethereum) {
-      const accounts = await ethereum.request({ method: 'eth_accounts' })
-      console.log('accounts', accounts)
+      const provider = new ethers.BrowserProvider(window.ethereum)
+
+      // MetaMask requires requesting permission to connect users accounts
+      const accounts = await provider.send('eth_requestAccounts', [])
 
       if (accounts.length) {
         const address = accounts[0]
@@ -143,26 +151,33 @@ export function Minter() {
   }
 
   async function getNFTInitialData(walletAddress: string) {
-    const totalSupply = await getTotalSupply()
-    setTotalSupply(totalSupply as number)
+    const [
+      totalSupply,
+      maxSupplyPerWallet,
+      totalNFTsMinted,
+      totalNFTsMintedByUser,
+    ] = await Promise.all([
+      getTotalSupply(),
+      getMaxSupplyPerWallet(),
+      getTotalNFTsMinted(),
+      getTotalNFTsMintedByUser(walletAddress),
+    ])
 
-    const maxSupplyPerWallet = await getMaxSupplyPerWallet()
-    setMaxSupplyPerWallet(maxSupplyPerWallet as number)
-
-    const totalNFTsMinted = await getTotalNFTsMinted()
-    setTotalAmountOfNFTsMinted(totalNFTsMinted as number)
-
-    const totalNFTsMintedByUser = await getTotalNFTsMintedByUser(walletAddress)
-    setUserNftsMinted(totalNFTsMintedByUser as number)
+    setNft({
+      maxSupplyPerWallet,
+      totalSupply,
+      totalNFTsMinted,
+      totalNFTsMintedByUser,
+    })
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     ;(async () => {
       await verifyIfWalletIsConnected()
     })()
   }, [])
 
-  React.useEffect(() => {
+  useEffect(() => {
     ;(async () => {
       if (walletAddress) {
         await getNFTInitialData(walletAddress)
@@ -171,11 +186,13 @@ export function Minter() {
   }, [walletAddress])
 
   return (
-    <div className="max-w-[328px] lg:max-w-[800px] w-full bg-blue800 rounded-[24px] py-12 px-4 lg:px-9 flex flex-col lg:flex-row items-stretch justify-between mx-auto shadow-xl">
+    <div className="max-w-[328px] lg:max-w-[800px] bg-purple500 w-full rounded-[24px] py-12 px-4 lg:px-9 flex flex-col lg:flex-row items-stretch justify-between mx-auto shadow-xl text-white">
       <div className="max-w-[328px] w-full flex flex-col gap-14">
         <div className="flex flex-col gap-2">
-          <h1 className="text-[2rem] lg:text-[2.5rem] font-bold">NFT NAME</h1>
-          <p className="text-blue200 font-medium">
+          <h1 className="text-[2rem] lg:text-[2.5rem] font-grandstander font-black">
+            NFT NAME
+          </h1>
+          <p className="font-light text-[1.25rem]">
             simply dummy text of the printing and typesetting industry. Lorem
             Ipsum has been the industrys standard dummy
           </p>
@@ -195,14 +212,14 @@ export function Minter() {
           />
           <div className="flex flex-col gap-4 font-medium">
             <span className="text-gray100 text-lg">
-              Total supply: {totalAmountOfNFTsMinted} / {totalSupply}
+              Total supply: {nft?.totalNFTsMinted} / {nft?.totalSupply}
             </span>
             <MintButton
-              disableMint={disableMint}
+              disabled={disableMint}
               walletAddress={walletAddress}
-              maxSupplyPerUser={maxSupplyPerWallet}
-              mintedByUserAmount={userNftsMinted}
-              onMint={onMintNFT}
+              maxSupplyPerUser={nft?.maxSupplyPerWallet || 0}
+              mintedByUserAmount={nft?.totalNFTsMintedByUser || 0}
+              onClick={onMintNFT}
               isMinting={isMinting}
             />
           </div>
