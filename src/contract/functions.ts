@@ -1,4 +1,4 @@
-import { ethers, toBigInt } from 'ethers'
+import { ethers, toNumber } from 'ethers'
 import contractAbi from '../contract/abi.json'
 
 const contractAddress = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS || ''
@@ -7,11 +7,9 @@ export async function getTotalSupply() {
   const { ethereum } = window
 
   if (ethereum) {
-    const provider = ethers.providers.Web3Provider(window.ethereum)
+    const provider = new ethers.BrowserProvider(window.ethereum)
 
     await provider.send('eth_requestAccounts', [])
-
-    const signer = provider.getSigner()
 
     const contractInstace = new ethers.Contract(
       contractAddress,
@@ -19,13 +17,11 @@ export async function getTotalSupply() {
       provider,
     )
 
-    const contractWithSigner = contractInstace.connect(signer)
+    const totalSupply = await contractInstace.maxSupply()
 
-    const totalSupply = await contractWithSigner.maxSupply()
+    const bigNumberReturn = BigInt(totalSupply._hex)
 
-    const bigNumberReturn = BigNumberish.from(totalSupply._hex)
-
-    const formattedTotalSupply = bigNumberReturn.toNumber()
+    const formattedTotalSupply = toNumber(bigNumberReturn)
 
     return formattedTotalSupply
   }
@@ -35,11 +31,9 @@ export async function getTotalNFTsMinted() {
   const { ethereum } = window
 
   if (ethereum) {
-    const provider = new ethers.providers.Web3Provider(window.ethereum)
+    const provider = new ethers.BrowserProvider(window.ethereum)
 
     await provider.send('eth_requestAccounts', [])
-
-    const signer = provider.getSigner()
 
     const contractInstace = new ethers.Contract(
       contractAddress,
@@ -47,9 +41,7 @@ export async function getTotalNFTsMinted() {
       provider,
     )
 
-    const contractWithSigner = contractInstace.connect(signer)
-
-    const totalNFTsMinted = await contractWithSigner._tokenIds()
+    const totalNFTsMinted = await contractInstace._tokenIds()
 
     const bigNumberReturn = totalNFTsMinted._hex.toBigInt()
 
@@ -63,11 +55,9 @@ export async function getTotalNFTsMintedByUser(walletAddress: string) {
   const { ethereum } = window
 
   if (ethereum) {
-    const provider = new ethers.providers.Web3Provider(window.ethereum)
+    const provider = new ethers.BrowserProvider(window.ethereum)
 
     await provider.send('eth_requestAccounts', [])
-
-    const signer = provider.getSigner()
 
     const contractInstace = new ethers.Contract(
       contractAddress,
@@ -75,15 +65,13 @@ export async function getTotalNFTsMintedByUser(walletAddress: string) {
       provider,
     )
 
-    const contractWithSigner = contractInstace.connect(signer)
-
-    const totalNFTsMintedByUser = await contractWithSigner.nftsMintedPerWallet(
+    const totalNFTsMintedByUser = await contractInstace.nftsMintedPerWallet(
       walletAddress,
     )
 
-    const bigNumberReturn = BigNumber.from(totalNFTsMintedByUser._hex)
+    const bigNumberReturn = BigInt(totalNFTsMintedByUser._hex)
 
-    const formattedTotalNFTsMintedByUser = bigNumberReturn.toNumber()
+    const formattedTotalNFTsMintedByUser = Number(bigNumberReturn)
 
     return formattedTotalNFTsMintedByUser
   }
@@ -93,11 +81,9 @@ export async function getMaxSupplyPerWallet() {
   const { ethereum } = window
 
   if (ethereum) {
-    const provider = new ethers.providers.Web3Provider(window.ethereum)
+    const provider = new ethers.BrowserProvider(window.ethereum)
 
     await provider.send('eth_requestAccounts', [])
-
-    const signer = provider.getSigner()
 
     const contractInstace = new ethers.Contract(
       contractAddress,
@@ -105,13 +91,11 @@ export async function getMaxSupplyPerWallet() {
       provider,
     )
 
-    const contractWithSigner = contractInstace.connect(signer)
+    const maxSupplyPerWallet = await contractInstace.maxNFTsPerWallet()
 
-    const maxSupplyPerWallet = await contractWithSigner.maxNFTsPerWallet()
+    const bigNumberReturn = BigInt(maxSupplyPerWallet._hex)
 
-    const bigNumberReturn = BigNumber.from(maxSupplyPerWallet._hex)
-
-    const formattedMaxSupplyPerWallet = bigNumberReturn.toNumber()
+    const formattedMaxSupplyPerWallet = toNumber(bigNumberReturn)
 
     return formattedMaxSupplyPerWallet
   }

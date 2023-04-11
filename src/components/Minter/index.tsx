@@ -1,6 +1,5 @@
 import Image from 'next/image'
 import React, { useState } from 'react'
-import { ethers } from 'ethers'
 
 import contractAbi from '../../contract/abi.json'
 import {
@@ -11,6 +10,8 @@ import {
 } from '../../contract/functions'
 import { MintButton } from './components/MintButton'
 import { ChangeAmountToMint } from './components/ChangeAmountToMint'
+
+import { ethers } from 'ethers'
 
 export function Minter() {
   const [totalSupply, setTotalSupply] = useState<number>(0)
@@ -52,11 +53,9 @@ export function Minter() {
     if (ethereum) {
       try {
         setIsMinting(true)
-        const provider = new ethers.providers.Web3Provider(window.ethereum)
+        const provider = new ethers.BrowserProvider(window.ethereum)
 
         await provider.send('eth_requestAccounts', [])
-
-        const signer = provider.getSigner()
 
         const contractInstace = new ethers.Contract(
           contractAddress,
@@ -64,19 +63,17 @@ export function Minter() {
           provider,
         )
 
-        const contractWithSigner = await contractInstace.connect(signer)
-        console.log('contractWithSigner', contractWithSigner)
-
-        const isEnabled = await contractWithSigner.isEnabled()
+        const isEnabled = await contractInstace.isEnabled()
         console.log('isEnabled', isEnabled)
 
         if (isEnabled) {
-          const isWhitelistOn = await contractWithSigner.isWhitelistOn()
+          const isWhitelistOn = await contractInstace.isWhitelistOn()
           console.log('isWhitelistOn', isWhitelistOn)
 
           if (isWhitelistOn) {
-            const addressIsOnWhitelist =
-              await contractWithSigner.addressToBoolWl(walletAddress)
+            const addressIsOnWhitelist = await contractInstace.addressToBoolWl(
+              walletAddress,
+            )
             console.log('addressIsOnWhitelist', addressIsOnWhitelist)
 
             if (userNftsMinted + amountOfNftsToMint > 5) {
@@ -94,10 +91,10 @@ export function Minter() {
             }
 
             if (addressIsOnWhitelist) {
-              const mintNft = await contractWithSigner.mintNFT(
+              const mintNft = await contractInstace.mintNFT(
                 amountOfNftsToMint,
                 {
-                  value: ethers.utils.parseUnits(
+                  value: ethers.parseUnits(
                     String(amountOfNftsToMint * nftPrice),
                     'ether',
                   ),
@@ -108,15 +105,12 @@ export function Minter() {
               setIsMinting(false)
             }
           } else {
-            const mintNft = await contractWithSigner.mintNFT(
-              amountOfNftsToMint,
-              {
-                value: ethers.utils.parseUnits(
-                  String(amountOfNftsToMint * nftPrice),
-                  'ether',
-                ),
-              },
-            )
+            const mintNft = await contractInstace.mintNFT(amountOfNftsToMint, {
+              value: ethers.parseUnits(
+                String(amountOfNftsToMint * nftPrice),
+                'ether',
+              ),
+            })
             console.log('mintNft', mintNft)
             setIsMinting(false)
           }
