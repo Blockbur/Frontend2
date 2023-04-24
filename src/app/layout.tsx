@@ -2,6 +2,7 @@ import React from 'react'
 // eslint-disable-next-line camelcase
 import './globals.css'
 import { Header } from '@/components/Header'
+import { Footer } from '@/components/Footer'
 
 export const metadata = {
   title: 'Weirds',
@@ -28,6 +29,7 @@ export default function RootLayout({
         <div className="max-w-screen w-full min-h-screen bg-purple600">
           {children}
         </div>
+        <Footer />
       </body>
     </html>
   )

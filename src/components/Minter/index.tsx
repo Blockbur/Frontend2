@@ -11,6 +11,8 @@ import { ChangeAmountToMint } from './components/ChangeAmountToMint'
 
 import { ethers } from 'ethers'
 
+import nftImage from '@/assets/mint/nft.png'
+
 export interface NFTProps {
   totalSupply: number | undefined
   totalNFTsMinted: number | undefined
@@ -22,6 +24,7 @@ export function Minter() {
   const [nft, setNft] = useState<NFTProps>()
 
   const [isMinting, setIsMinting] = useState<boolean>(false)
+  const [isOnWhitelist, setIsOnWhitelist] = useState<boolean>(false)
 
   const [amountOfNftsToMint, setAmountOfNftsToMint] = useState<number>(0)
   const [walletAddress, setWalletAddress] = useState<string>('')
@@ -55,7 +58,6 @@ export function Minter() {
     const contract = await instantiteContractWithRpcUrl()
 
     const isWhitelistOn = await contract.isWhitelistOn()
-    console.log('isWhitelistOn ==>', isWhitelistOn)
 
     if (isWhitelistOn) {
       const data = JSON.stringify({
@@ -73,9 +75,15 @@ export function Minter() {
         body: data,
       }
 
-      await fetch(url, config).then((res) => {
-        console.log('RESPONSE', res.json())
-      })
+      await fetch(url, config)
+        .then((res) => res.json())
+        .then((res) => {
+          if (res.error === 'Address does not allowed in whitelist') {
+            setIsOnWhitelist(false)
+          } else {
+            setIsOnWhitelist(true)
+          }
+        })
     }
   }
 
@@ -185,10 +193,8 @@ export function Minter() {
       const accounts = await provider.send('eth_accounts', [])
 
       if (accounts[0]) {
-        console.log('Wallet is connected to network:', accounts[0])
         setWalletAddress(accounts[0])
       } else {
-        console.log('Wallet is not connected')
         setWalletAddress('')
       }
     } else {
@@ -213,8 +219,8 @@ export function Minter() {
   useEffect(() => {
     ;(async () => {
       if (walletAddress) {
-        console.log('wallet address', walletAddress)
         await getNFTInitialData(walletAddress)
+        await verifyIfUserIsInWhitelist(walletAddress)
       }
     })()
   }, [walletAddress])
@@ -222,7 +228,7 @@ export function Minter() {
   if (walletAddress) {
     return (
       <div className="max-w-[328px] lg:max-w-[966px] bg-[#18134E] w-full rounded-[24px] py-12 px-4 lg:px-9 flex flex-col lg:flex-row items-stretch justify-between mx-auto shadow-xl text-white">
-        <div className="max-w-[328px] w-full flex flex-col gap-14">
+        <div className="max-w-[328px] w-full flex flex-col gap-8">
           <div className="w-[357px] flex flex-col gap-2">
             <h1 className="text-[2rem] lg:text-[2.5rem] font-grandstander font-black">
               NFT NAME
@@ -235,36 +241,54 @@ export function Minter() {
             </p>
           </div>
 
-          <div className="hidden lg:flex flex-col gap-14">
+          <div className="w-full hidden lg:flex flex-col gap-14">
             <ChangeAmountToMint
               amountOfNftsToMint={amountOfNftsToMint}
               onDecreaseAmount={onDecreaseBuyAmount}
               onIncreaseAmount={onIncreaseBuyAmount}
               blockAmountChange={blockIncreaseNFTsAmounToMint}
             />
-            <div className="flex flex-col gap-4 font-medium">
+            <div className="flex flex-col gap-4 font-medium mt-6">
               <span className="text-gray100 text-lg">
                 Total supply: {nft?.totalNFTsMinted} / {nft?.totalSupply}
               </span>
-              <MintButton
-                disabled={disableMint}
-                walletAddress={walletAddress}
-                maxSupplyPerUser={nft?.maxSupplyPerWallet || 0}
-                mintedByUserAmount={nft?.totalNFTsMintedByUser || 0}
-                onClick={onMintNFT}
-                isMinting={isMinting}
-              />
+              {isOnWhitelist ? (
+                <button
+                  onClick={onMintNFT}
+                  className="w-[404px] py-4 bg-gradient-to-r from-[#51CE06] via-[#88E553] to-[#C0FDA3] rounded-xl text-lg text-black font-bold disabled:cursor-not-allowed disabled:bg-gray500"
+                >
+                  MINTING SOON
+                </button>
+              ) : (
+                // <MintButton
+                //   disabled={disableMint}
+                //   walletAddress={walletAddress}
+                //   maxSupplyPerUser={nft?.maxSupplyPerWallet || 0}
+                //   mintedByUserAmount={nft?.nftsMintedByWallet || 0}
+                //   onClick={onMintNFT}
+                //   isMinting={isMinting}
+                // />
+                <button
+                  disabled
+                  className="w-[404px] cursor-not-allowed py-4 bg-gradient-to-r from-[#CD7001] to-[#FAA034] rounded-xl text-lg text-white font-bold"
+                >
+                  MINTING SOON
+                </button>
+              )}
             </div>
           </div>
         </div>
-        <div className="max-w-[328px] w-full flex flex-col gap-8 mt-8 lg:mt-0">
-          <h1 className="text-3xl text-center lg:text-end flex items-center gap-3 justify-center lg:justify-end">
-            <span className="text-2xl font-medium">Total Price:</span>
-            <strong className="font-bold">
-              {amountOfNftsToMint * 0.01} ETH
-            </strong>
+        <div className="flex flex-col gap-8 mt-8 lg:mt-0">
+          <h1 className="text-[3rem] text-center lg:text-end flex items-center gap-3 justify-center lg:justify-end font-bold">
+            {amountOfNftsToMint * 0.01} MATIC
           </h1>
-          <Image className="mt-auto" src={''} alt="NFT image" />
+          <Image
+            className="mt-auto w-[400px] h-[400px]"
+            src={nftImage}
+            width={403}
+            height={403}
+            alt="NFT image"
+          />
         </div>
       </div>
     )
