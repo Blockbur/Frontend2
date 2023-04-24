@@ -161,7 +161,7 @@ export default function Home() {
   ]
 
   return (
-    <div className="max-w-screen w-full min-h-screen bg-purple600 text-white bg-notes bg-no-repeat bg-cover">
+    <div className="w-full text-white bg-notes bg-no-repeat bg-cover">
       <section className="max-w-screen w-full bg-trees bg-no-repeat bg-cover bg-top h-[898px]">
         <div className="max-w-[1120px] w-full mx-auto flex items-center justify-between pt-[178px]">
           <div className="w-[452px] flex flex-col">
@@ -345,7 +345,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className="max-w-screen w-full bg-purple600">
+      <section className="max-w-screen w-full">
         <div className="max-w-[1148px] w-full mx-auto flex flex-col items-center py-20">
           <div>
             <h1 className="font-grandstander font-black text-[4.35rem] text-center">

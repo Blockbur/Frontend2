@@ -3,21 +3,19 @@ import React, { useEffect, useState } from 'react'
 
 import contractAbi from '../../contract/abi.json'
 import {
-  getMaxSupplyPerWallet,
-  getTotalNFTsMinted,
-  getTotalNFTsMintedByUser,
-  getTotalSupply,
+  getSummary,
+  instantiteContractWithRpcUrl,
 } from '../../contract/functions'
 import { MintButton } from './components/MintButton'
 import { ChangeAmountToMint } from './components/ChangeAmountToMint'
 
 import { ethers } from 'ethers'
 
-interface NFTProps {
+export interface NFTProps {
   totalSupply: number | undefined
-  maxSupplyPerWallet: number | undefined
   totalNFTsMinted: number | undefined
-  totalNFTsMintedByUser: number | undefined
+  maxSupplyPerWallet: number | undefined
+  nftsMintedByWallet: number | undefined
 }
 
 export function Minter() {
@@ -40,7 +38,7 @@ export function Minter() {
   const maxSupplyReached = nft?.totalNFTsMinted === nft?.totalSupply
 
   const maxSupplyPerUserReached =
-    nft?.totalNFTsMintedByUser === nft?.maxSupplyPerWallet
+    nft?.nftsMintedByWallet === nft?.maxSupplyPerWallet
 
   const disableMint =
     !contractIsEnabled || maxSupplyReached || maxSupplyPerUserReached
@@ -51,6 +49,34 @@ export function Minter() {
 
   function onDecreaseBuyAmount() {
     setAmountOfNftsToMint((prevAmount) => prevAmount - 1)
+  }
+
+  async function verifyIfUserIsInWhitelist(walletAddress: string) {
+    const contract = await instantiteContractWithRpcUrl()
+
+    const isWhitelistOn = await contract.isWhitelistOn()
+    console.log('isWhitelistOn ==>', isWhitelistOn)
+
+    if (isWhitelistOn) {
+      const data = JSON.stringify({
+        address: walletAddress,
+      })
+
+      const url = 'https://parseapi.back4app.com/functions/getWhitelist'
+      const config = {
+        method: 'post',
+        headers: {
+          'X-Parse-Application-Id': 'Xz46bQ1hZnI5ErWIEhhre7zlNXlXxRIzFZjt5t21',
+          'X-Parse-REST-API-Key': 'o3GkupLY9PPTEtJzynIcU6BNguJ6KTB5lAvfqGp4',
+          'Content-Type': 'application/json',
+        },
+        body: data,
+      }
+
+      await fetch(url, config).then((res) => {
+        console.log('RESPONSE', res.json())
+      })
+    }
   }
 
   async function onMintNFT() {
@@ -82,7 +108,7 @@ export function Minter() {
             )
             console.log('addressIsOnWhitelist', addressIsOnWhitelist)
 
-            if (Number(nft?.totalNFTsMintedByUser) + amountOfNftsToMint > 5) {
+            if (Number(nft?.nftsMintedByWallet) + amountOfNftsToMint > 5) {
               alert('You can not mint more than 5 NFTs per wallet!')
               setIsMinting(false)
               // eslint-disable-next-line no-throw-literal
@@ -131,7 +157,7 @@ export function Minter() {
     }
   }
 
-  async function verifyIfWalletIsConnected() {
+  async function handleConnectWallet() {
     const { ethereum } = window
 
     if (ethereum) {
@@ -150,25 +176,32 @@ export function Minter() {
     }
   }
 
-  async function getNFTInitialData(walletAddress: string) {
-    const [
-      totalSupply,
-      maxSupplyPerWallet,
-      totalNFTsMinted,
-      totalNFTsMintedByUser,
-    ] = await Promise.all([
-      getTotalSupply(),
-      getMaxSupplyPerWallet(),
-      getTotalNFTsMinted(),
-      getTotalNFTsMintedByUser(walletAddress),
-    ])
+  async function verifyIfWalletIsConnected() {
+    const { ethereum } = window
 
-    setNft({
-      maxSupplyPerWallet,
-      totalSupply,
-      totalNFTsMinted,
-      totalNFTsMintedByUser,
-    })
+    if (ethereum) {
+      const provider = new ethers.BrowserProvider(window.ethereum)
+
+      const accounts = await provider.send('eth_accounts', [])
+
+      if (accounts[0]) {
+        console.log('Wallet is connected to network:', accounts[0])
+        setWalletAddress(accounts[0])
+      } else {
+        console.log('Wallet is not connected')
+        setWalletAddress('')
+      }
+    } else {
+      alert("You don't have the metamask extension installed!")
+    }
+  }
+
+  async function getNFTInitialData(walletAddress: string) {
+    const summary = await getSummary(walletAddress)
+
+    console.log('data', summary)
+
+    setNft(summary)
   }
 
   useEffect(() => {
@@ -180,58 +213,83 @@ export function Minter() {
   useEffect(() => {
     ;(async () => {
       if (walletAddress) {
+        console.log('wallet address', walletAddress)
         await getNFTInitialData(walletAddress)
       }
     })()
   }, [walletAddress])
 
-  return (
-    <div className="max-w-[328px] lg:max-w-[800px] bg-purple500 w-full rounded-[24px] py-12 px-4 lg:px-9 flex flex-col lg:flex-row items-stretch justify-between mx-auto shadow-xl text-white">
-      <div className="max-w-[328px] w-full flex flex-col gap-14">
-        <div className="flex flex-col gap-2">
-          <h1 className="text-[2rem] lg:text-[2.5rem] font-grandstander font-black">
-            NFT NAME
-          </h1>
-          <p className="font-light text-[1.25rem]">
-            simply dummy text of the printing and typesetting industry. Lorem
-            Ipsum has been the industrys standard dummy
-          </p>
-        </div>
-        <div className="flex lg:hidden">
-          <p className="italic">
-            In order to mint our NFTs, open our website in your favorite Desktop
-            Browser e.g. Chrome, Firefox, etc.
-          </p>
-        </div>
-        <div className="hidden lg:flex flex-col gap-14">
-          <ChangeAmountToMint
-            amountOfNftsToMint={amountOfNftsToMint}
-            onDecreaseAmount={onDecreaseBuyAmount}
-            onIncreaseAmount={onIncreaseBuyAmount}
-            blockAmountChange={blockIncreaseNFTsAmounToMint}
-          />
-          <div className="flex flex-col gap-4 font-medium">
-            <span className="text-gray100 text-lg">
-              Total supply: {nft?.totalNFTsMinted} / {nft?.totalSupply}
-            </span>
-            <MintButton
-              disabled={disableMint}
-              walletAddress={walletAddress}
-              maxSupplyPerUser={nft?.maxSupplyPerWallet || 0}
-              mintedByUserAmount={nft?.totalNFTsMintedByUser || 0}
-              onClick={onMintNFT}
-              isMinting={isMinting}
+  if (walletAddress) {
+    return (
+      <div className="max-w-[328px] lg:max-w-[966px] bg-[#18134E] w-full rounded-[24px] py-12 px-4 lg:px-9 flex flex-col lg:flex-row items-stretch justify-between mx-auto shadow-xl text-white">
+        <div className="max-w-[328px] w-full flex flex-col gap-14">
+          <div className="w-[357px] flex flex-col gap-2">
+            <h1 className="text-[2rem] lg:text-[2.5rem] font-grandstander font-black">
+              NFT NAME
+            </h1>
+            <p className="font-regular">
+              Heard that sound? Are the Weird Ships arriving on Planet Earth.
+              Each one will contain one of the three initial Weirds:{' '}
+              <strong className="font-bold">Sneeze, Gulp or Lady Kinky</strong>.
+              Mint to hear one of them playing something weird!
+            </p>
+          </div>
+
+          <div className="hidden lg:flex flex-col gap-14">
+            <ChangeAmountToMint
+              amountOfNftsToMint={amountOfNftsToMint}
+              onDecreaseAmount={onDecreaseBuyAmount}
+              onIncreaseAmount={onIncreaseBuyAmount}
+              blockAmountChange={blockIncreaseNFTsAmounToMint}
             />
+            <div className="flex flex-col gap-4 font-medium">
+              <span className="text-gray100 text-lg">
+                Total supply: {nft?.totalNFTsMinted} / {nft?.totalSupply}
+              </span>
+              <MintButton
+                disabled={disableMint}
+                walletAddress={walletAddress}
+                maxSupplyPerUser={nft?.maxSupplyPerWallet || 0}
+                mintedByUserAmount={nft?.totalNFTsMintedByUser || 0}
+                onClick={onMintNFT}
+                isMinting={isMinting}
+              />
+            </div>
           </div>
         </div>
+        <div className="max-w-[328px] w-full flex flex-col gap-8 mt-8 lg:mt-0">
+          <h1 className="text-3xl text-center lg:text-end flex items-center gap-3 justify-center lg:justify-end">
+            <span className="text-2xl font-medium">Total Price:</span>
+            <strong className="font-bold">
+              {amountOfNftsToMint * 0.01} ETH
+            </strong>
+          </h1>
+          <Image className="mt-auto" src={''} alt="NFT image" />
+        </div>
       </div>
-      <div className="max-w-[328px] w-full flex flex-col gap-8 mt-8 lg:mt-0">
-        <h1 className="text-3xl text-center lg:text-end flex items-center gap-3 justify-center lg:justify-end">
-          <span className="text-2xl font-medium">Total Price:</span>
-          <strong className="font-bold">{amountOfNftsToMint * 0.01} ETH</strong>
-        </h1>
-        <Image className="mt-auto" src={''} alt="NFT image" />
+    )
+  } else {
+    return (
+      <div className="max-w-[328px] lg:max-w-[640px] bg-[#18134E] w-full rounded-[24px] py-12 px-4 lg:px-9 flex flex-col lg:flex-row items-stretch justify-between mx-auto shadow-xl text-white">
+        <div className="max-w-[540px] w-full flex flex-col items-center gap-14 mx-auto">
+          <div className="w-[357px] flex flex-col text-center gap-2">
+            <h1 className="text-[2rem] lg:text-[2.5rem] font-grandstander font-black leading-none">
+              OOPS... CONNECT BEFORE MINT!
+            </h1>
+            <p className="font-regular">
+              In order to mint Weirds´ NFTs you must be connected to your
+              Metamask!
+            </p>
+          </div>
+
+          <button
+            onClick={handleConnectWallet}
+            className="w-full py-4 bg-gradient-to-r from-[#51CE06] via-[#88E553] to-[#C0FDA3] rounded-xl text-lg text-black font-bold disabled:cursor-not-allowed disabled:bg-gray500"
+          >
+            CONNECT WALLET
+          </button>
+        </div>
       </div>
-    </div>
-  )
+    )
+  }
 }

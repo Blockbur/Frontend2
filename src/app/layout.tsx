@@ -25,7 +25,9 @@ export default function RootLayout({
       </head>
       <body>
         <Header />
-        <div>{children}</div>
+        <div className="max-w-screen w-full min-h-screen bg-purple600">
+          {children}
+        </div>
       </body>
     </html>
   )

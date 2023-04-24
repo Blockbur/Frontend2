@@ -1,9 +1,31 @@
 import { ethers, toNumber } from 'ethers'
 import contractAbi from '../contract/abi.json'
+import { NFTProps } from '@/components/Minter'
 
 const contractAddress = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS || ''
 
-async function instantiateContract() {
+async function convertFromBigIntToInteger(number: any) {
+  const bigNumberReturn = BigInt(number)
+  const formattedInteger = toNumber(bigNumberReturn)
+
+  return formattedInteger
+}
+
+export async function instantiteContractWithRpcUrl() {
+  const provider = new ethers.JsonRpcProvider(
+    'https://polygon-mumbai.g.alchemy.com/v2/6XFcpiY-OYMhStUfVvVuYdPUMyeQOZbW',
+  )
+
+  const contractInstance = new ethers.Contract(
+    contractAddress,
+    contractAbi,
+    provider,
+  )
+
+  return contractInstance
+}
+
+export async function instantiateContract() {
   const provider = new ethers.BrowserProvider(window.ethereum)
 
   await provider.send('eth_requestAccounts', [])
@@ -17,68 +39,75 @@ async function instantiateContract() {
   return contractInstance
 }
 
-export async function getTotalSupply() {
-  const { ethereum } = window
+export async function getTotalSupply(contractInstance: ethers.Contract) {
+  const maxSupply = await contractInstance.maxSupply()
 
-  if (ethereum) {
-    const contract = await instantiateContract()
+  const totalSupply = convertFromBigIntToInteger(maxSupply)
 
-    const totalSupply = await contract.maxSupply()
-
-    const bigNumberReturn = BigInt(totalSupply._hex)
-
-    const formattedTotalSupply = toNumber(bigNumberReturn)
-
-    return formattedTotalSupply
-  }
+  return totalSupply
 }
 
-export async function getTotalNFTsMinted() {
-  const { ethereum } = window
+export async function getTotalNFTsMinted(contractInstance: ethers.Contract) {
+  const tokenIds = await contractInstance._tokenIds()
 
-  if (ethereum) {
-    const contract = await instantiateContract()
+  const totalNftsMinted = convertFromBigIntToInteger(tokenIds)
 
-    const totalNFTsMinted = await contract._tokenIds()
-
-    const bigNumberReturn = totalNFTsMinted._hex.toBigInt()
-
-    const formattedTotalNFTsMinted = bigNumberReturn.toNumber()
-
-    return formattedTotalNFTsMinted
-  }
+  return totalNftsMinted
 }
 
-export async function getTotalNFTsMintedByUser(walletAddress: string) {
+export async function getTotalNFTsMintedByUser(
+  contractInstance: ethers.Contract,
+  walletAddress: string,
+) {
   const { ethereum } = window
 
   if (ethereum) {
-    const contract = await instantiateContract()
-
-    const totalNFTsMintedByUser = await contract.nftsMintedPerWallet(
+    const totalNFTsMintedByUser = await contractInstance.nftsMintedPerWallet(
+      0,
       walletAddress,
     )
 
-    const bigNumberReturn = BigInt(totalNFTsMintedByUser._hex)
+    const totalNftsMintedByWallet = convertFromBigIntToInteger(
+      totalNFTsMintedByUser,
+    )
 
-    const formattedTotalNFTsMintedByUser = Number(bigNumberReturn)
-
-    return formattedTotalNFTsMintedByUser
+    return totalNftsMintedByWallet
   }
 }
 
-export async function getMaxSupplyPerWallet() {
+export async function getMaxSupplyPerWallet(contractInstance: ethers.Contract) {
+  const _maxNFTsPerWallet = await contractInstance.maxNFTsPerCollection(0)
+
+  const maxSupplyPerWallet = convertFromBigIntToInteger(_maxNFTsPerWallet)
+
+  return maxSupplyPerWallet
+}
+
+export async function getSummary(walletAddress: string) {
   const { ethereum } = window
 
   if (ethereum) {
-    const contract = await instantiateContract()
+    const contract = await instantiteContractWithRpcUrl()
 
-    const maxSupplyPerWallet = await contract.maxNFTsPerWallet()
+    const [
+      totalSupply,
+      totalNFTsMinted,
+      maxSupplyPerWallet,
+      nftsMintedByWallet,
+    ] = await Promise.all([
+      getTotalSupply(contract),
+      getTotalNFTsMinted(contract),
+      getMaxSupplyPerWallet(contract),
+      getTotalNFTsMintedByUser(contract, walletAddress),
+    ])
 
-    const bigNumberReturn = BigInt(maxSupplyPerWallet._hex)
+    const summary: NFTProps = {
+      totalSupply,
+      totalNFTsMinted,
+      maxSupplyPerWallet,
+      nftsMintedByWallet,
+    }
 
-    const formattedMaxSupplyPerWallet = toNumber(bigNumberReturn)
-
-    return formattedMaxSupplyPerWallet
+    return summary
   }
 }
