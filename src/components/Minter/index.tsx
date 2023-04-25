@@ -1,12 +1,11 @@
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 
-import contractAbi from '../../contract/abi.json'
 import {
   getSummary,
+  instantiateContract,
   instantiteContractWithRpcUrl,
 } from '../../contract/functions'
-import { MintButton } from './components/MintButton'
 import { ChangeAmountToMint } from './components/ChangeAmountToMint'
 
 import { ethers } from 'ethers'
@@ -23,20 +22,22 @@ export interface NFTProps {
 export function Minter() {
   const [nft, setNft] = useState<NFTProps>()
 
-  const [isMinting, setIsMinting] = useState<boolean>(false)
   const [isOnWhitelist, setIsOnWhitelist] = useState<boolean>(false)
+  const [isMinting, setIsMinting] = useState<boolean>(false)
+  const [isWhitelistOn, setIsWhitelistOn] = useState<boolean>(false)
+  const [signature, setSignature] = useState<string>('')
 
   const [amountOfNftsToMint, setAmountOfNftsToMint] = useState<number>(0)
   const [walletAddress, setWalletAddress] = useState<string>('')
   const [contractIsEnabled, setContractEnabled] = useState<boolean>(true)
 
-  const contractAddress = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS || ''
-
   const nftPrice = 0.01
 
   const blockIncreaseNFTsAmounToMint =
     Number(nft?.totalNFTsMinted) + amountOfNftsToMint ===
-    nft?.maxSupplyPerWallet
+      nft?.maxSupplyPerWallet ||
+    amountOfNftsToMint + Number(nft?.nftsMintedByWallet) ===
+      nft?.maxSupplyPerWallet
 
   const maxSupplyReached = nft?.totalNFTsMinted === nft?.totalSupply
 
@@ -60,6 +61,7 @@ export function Minter() {
     const isWhitelistOn = await contract.isWhitelistOn()
 
     if (isWhitelistOn) {
+      setIsWhitelistOn(true)
       const data = JSON.stringify({
         address: walletAddress,
       })
@@ -81,6 +83,7 @@ export function Minter() {
           if (res.error === 'Address does not allowed in whitelist') {
             setIsOnWhitelist(false)
           } else {
+            setSignature(res.result)
             setIsOnWhitelist(true)
           }
         })
@@ -93,65 +96,32 @@ export function Minter() {
     if (ethereum) {
       try {
         setIsMinting(true)
-        const provider = new ethers.BrowserProvider(window.ethereum)
 
-        await provider.send('eth_requestAccounts', [])
+        const contract = await instantiateContract()
 
-        const contractInstace = new ethers.Contract(
-          contractAddress,
-          contractAbi,
-          provider,
-        )
-
-        const isEnabled = await contractInstace.isEnabled()
-        console.log('isEnabled', isEnabled)
+        const isEnabled = await contract.isEnabled()
 
         if (isEnabled) {
-          const isWhitelistOn = await contractInstace.isWhitelistOn()
-          console.log('isWhitelistOn', isWhitelistOn)
-
           if (isWhitelistOn) {
-            const addressIsOnWhitelist = await contractInstace.addressToBoolWl(
-              walletAddress,
-            )
-            console.log('addressIsOnWhitelist', addressIsOnWhitelist)
-
-            if (Number(nft?.nftsMintedByWallet) + amountOfNftsToMint > 5) {
-              alert('You can not mint more than 5 NFTs per wallet!')
-              setIsMinting(false)
-              // eslint-disable-next-line no-throw-literal
-              throw 'You can not mint more than 5 NFTs per wallet!'
+            try {
+              await contract.mintNFT(amountOfNftsToMint, signature, {
+                value: ethers.parseUnits(
+                  String(amountOfNftsToMint * nftPrice),
+                  'ether',
+                ),
+              })
+            } catch (err) {
+              console.log('err', err)
             }
 
-            if (!addressIsOnWhitelist) {
-              alert('Your address is not whitelisted!')
-              setIsMinting(false)
-              // eslint-disable-next-line no-throw-literal
-              throw 'Your address is not whitelisted!'
-            }
-
-            if (addressIsOnWhitelist) {
-              const mintNft = await contractInstace.mintNFT(
-                amountOfNftsToMint,
-                {
-                  value: ethers.parseUnits(
-                    String(amountOfNftsToMint * nftPrice),
-                    'ether',
-                  ),
-                },
-              )
-
-              console.log('mintNftWithWhitelist', mintNft)
-              setIsMinting(false)
-            }
+            setIsMinting(false)
           } else {
-            const mintNft = await contractInstace.mintNFT(amountOfNftsToMint, {
+            await contract.mintNFT(amountOfNftsToMint, {
               value: ethers.parseUnits(
                 String(amountOfNftsToMint * nftPrice),
                 'ether',
               ),
             })
-            console.log('mintNft', mintNft)
             setIsMinting(false)
           }
         } else {
@@ -243,21 +213,21 @@ export function Minter() {
 
           <div className="w-full hidden lg:flex flex-col gap-14">
             <ChangeAmountToMint
+              maxReached={blockIncreaseNFTsAmounToMint}
               amountOfNftsToMint={amountOfNftsToMint}
               onDecreaseAmount={onDecreaseBuyAmount}
               onIncreaseAmount={onIncreaseBuyAmount}
-              blockAmountChange={blockIncreaseNFTsAmounToMint}
             />
             <div className="flex flex-col gap-4 font-medium mt-6">
               <span className="text-gray100 text-lg">
                 Total supply: {nft?.totalNFTsMinted} / {nft?.totalSupply}
               </span>
-              {isOnWhitelist ? (
+              {isOnWhitelist || !disableMint ? (
                 <button
                   onClick={onMintNFT}
                   className="w-[404px] py-4 bg-gradient-to-r from-[#51CE06] via-[#88E553] to-[#C0FDA3] rounded-xl text-lg text-black font-bold disabled:cursor-not-allowed disabled:bg-gray500"
                 >
-                  MINTING SOON
+                  MINT ({nft?.nftsMintedByWallet} / {nft?.maxSupplyPerWallet})
                 </button>
               ) : (
                 // <MintButton
@@ -280,7 +250,7 @@ export function Minter() {
         </div>
         <div className="flex flex-col gap-8 mt-8 lg:mt-0">
           <h1 className="text-[3rem] text-center lg:text-end flex items-center gap-3 justify-center lg:justify-end font-bold">
-            {amountOfNftsToMint * 0.01} MATIC
+            {(amountOfNftsToMint * 0.01).toFixed(2)} MATIC
           </h1>
           <Image
             className="mt-auto w-[400px] h-[400px]"

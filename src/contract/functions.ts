@@ -30,10 +30,12 @@ export async function instantiateContract() {
 
   await provider.send('eth_requestAccounts', [])
 
+  const signer = await provider.getSigner()
+
   const contractInstance = new ethers.Contract(
     contractAddress,
     contractAbi,
-    provider,
+    signer,
   )
 
   return contractInstance

@@ -2,7 +2,7 @@ import { CaretLeft, CaretRight } from 'phosphor-react'
 
 interface ChangeAmountToMintProps {
   amountOfNftsToMint: number
-  blockAmountChange: boolean
+  maxReached: boolean
   onIncreaseAmount: () => void
   onDecreaseAmount: () => void
 }
@@ -11,7 +11,7 @@ export function ChangeAmountToMint({
   amountOfNftsToMint,
   onDecreaseAmount,
   onIncreaseAmount,
-  blockAmountChange,
+  maxReached,
 }: ChangeAmountToMintProps) {
   function handleDecreaseBuyAmount() {
     onDecreaseAmount()
@@ -38,17 +38,15 @@ export function ChangeAmountToMint({
 
         <span className="font-bold text-[32px] px-1">{amountOfNftsToMint}</span>
 
-        <CaretRight
-          id="increase"
-          onClick={!blockAmountChange ? handleIncreaseBuyAmount : () => {}}
-          className={` ${
-            blockAmountChange
-              ? `text-gray500 cursor-auto`
-              : `text-white cursor-pointer`
-          }`}
-          size={48}
-          weight="fill"
-        />
+        {maxReached ? null : (
+          <CaretRight
+            id="increase"
+            onClick={handleIncreaseBuyAmount}
+            className="text-white cursor-pointer"
+            size={48}
+            weight="fill"
+          />
+        )}
       </div>
     </div>
   )
