@@ -23,7 +23,6 @@ export function Minter() {
   const [nft, setNft] = useState<NFTProps>()
 
   const [isOnWhitelist, setIsOnWhitelist] = useState<boolean>(false)
-  const [isMinting, setIsMinting] = useState<boolean>(false)
   const [isWhitelistOn, setIsWhitelistOn] = useState<boolean>(false)
   const [signature, setSignature] = useState<string>('')
 
@@ -95,8 +94,6 @@ export function Minter() {
 
     if (ethereum) {
       try {
-        setIsMinting(true)
-
         const contract = await instantiateContract()
 
         const isEnabled = await contract.isEnabled()
@@ -113,8 +110,6 @@ export function Minter() {
             } catch (err) {
               console.log('err', err)
             }
-
-            setIsMinting(false)
           } else {
             await contract.mintNFT(amountOfNftsToMint, {
               value: ethers.parseUnits(
@@ -122,13 +117,12 @@ export function Minter() {
                 'ether',
               ),
             })
-            setIsMinting(false)
           }
         } else {
           setContractEnabled(false)
         }
       } catch (err) {
-        setIsMinting(false)
+        console.log(err)
       }
     } else {
       alert("You don't have the metamask extension installed!")
