@@ -46,6 +46,11 @@ export function Minter() {
   const disableMint =
     !contractIsEnabled || maxSupplyReached || maxSupplyPerUserReached
 
+  const rpcUrl = process.env.NEXT_PUBLIC_RPC_URL
+  const chainId = process.env.NEXT_PUBLIC_CHAIN_ID
+  const chainName = process.env.NEXT_PUBLIC_CHAIN_NAME
+  const blockExplorerUrl = process.env.NEXT_PUBLIC_BLOCK_EXPLORER_URL
+
   function onIncreaseBuyAmount() {
     setAmountOfNftsToMint((prevAmount) => prevAmount + 1)
   }
@@ -133,15 +138,36 @@ export function Minter() {
     const { ethereum } = window
 
     if (ethereum) {
+      console.log('aqui')
+
       const provider = new ethers.BrowserProvider(window.ethereum)
 
       // MetaMask requires requesting permission to connect users accounts
       const accounts = await provider.send('eth_requestAccounts', [])
 
+      console.log('accc', accounts)
+
       if (accounts.length) {
         const address = accounts[0]
 
         setWalletAddress(address)
+
+        ethereum.request({
+          method: 'wallet_addEthereumChain',
+          params: [
+            {
+              chainId,
+              rpcUrls: [rpcUrl],
+              chainName,
+              nativeCurrency: {
+                name: 'MATIC',
+                symbol: 'MATIC',
+                decimals: 18,
+              },
+              blockExplorerUrls: [blockExplorerUrl],
+            },
+          ],
+        })
       }
     } else {
       alert("You don't have the metamask extension installed!")
