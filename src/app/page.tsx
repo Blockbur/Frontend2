@@ -28,6 +28,7 @@ import conceptImage from '../assets/concept.png'
 import roadmap from '../assets/roadmap.png'
 
 import * as Accordion from '@radix-ui/react-accordion'
+import * as ScrollArea from '@radix-ui/react-scroll-area'
 import { CaretDown, X } from 'phosphor-react'
 
 export default function Home() {
@@ -157,14 +158,14 @@ export default function Home() {
   ]
 
   return (
-    <div className="w-full text-white bg-notes bg-no-repeat bg-cover">
-      <section className="max-w-screen w-full bg-trees bg-no-repeat bg-cover bg-top h-[898px]">
-        <div className="max-w-[1120px] w-full mx-auto flex items-center justify-between pt-[178px]">
-          <div className="w-[452px] flex flex-col">
-            <h1 className="text-[5rem] font-black font-grandstander leading-none">
+    <div className="w-full text-white lg:bg-notes bg-no-repeat bg-cover">
+      <section className="max-w-screen w-full lg:bg-trees bg-no-repeat bg-cover bg-top h-[898px] px-6 lg:px-0">
+        <div className="max-w-[393px] lg:max-w-[1120px] w-full mx-auto flex flex-col lg:flex-row items-start lg:items-center gap-10 lg:gap-0 justify-between pt-36 lg:pt-[178px]">
+          <div className="w-[245px] lg:w-[452px] flex flex-col">
+            <h1 className="text-[2rem] lg:text-[5rem] font-black font-grandstander leading-none">
               WELCOME TO WEIRD BAND!
             </h1>
-            <p className="text-[1.25rem]">
+            <p className="text-sm lg:text-[1.25rem] leading-snug mt-2 lg:mt-0">
               Each weird character entitles you to be part of an intergalactic
               adventure full of music. Make your own Weird Band and be a Weirdo!
             </p>
@@ -176,55 +177,60 @@ export default function Home() {
         </div>
       </section>
       <section className="-mt-24 max-w-screen w-full">
-        <div className="max-w-[1140px] w-full mx-auto">
+        <div className="max-w-fit lg:max-w-[1140px] w-full mx-auto">
           <div className="w-full flex flex-col">
-            <div className="w-[680px] mx-auto text-center">
-              <h1 className="font-grandstander font-black uppercase text-[4.35rem] leading-none">
+            <div className="w-[343px] lg:w-[680px] mx-auto text-center px-6 lg:px-0">
+              <h1 className="font-grandstander font-black uppercase text-[2rem] lg:text-[4.35rem] leading-none">
                 PROJECT CORE
               </h1>
-              <p className="text-[1.25rem] mt-4">
+              <p className="text-sm lg:text-[1.25rem] mt-2 lg:mt-4">
                 Weird Band is an intellectual property that combines cartoon,
                 music and game into a unique Web3 experience.
               </p>
             </div>
-            <div className="w-full flex justify-between mt-14">
-              {coreItems.map((item) => {
-                return (
-                  <div
-                    key={item.title}
-                    className="w-[340px] px-10 pt-[54px] pb-16 rounded-[72px] border border-transparent bg-purple800/30 flex flex-col items-center group hover:cursor-pointer hover:bg-transparent hover:border-white transition duration-500"
-                  >
-                    <h1 className="text-[2.5rem] font-grandstander font-black text-white opacity-50 group-hover:opacity-100">
-                      {item.title}
-                    </h1>
-                    <Image
-                      className="group-hover:hidden"
-                      src={item.disabledImg}
-                      width={192}
-                      height={174}
-                      alt=""
-                    />
-                    <Image
-                      className="hidden group-hover:block"
-                      src={item.hoverImg}
-                      width={192}
-                      height={174}
-                      alt=""
-                    />
-                    <p className="w-[274px] text-[1.25rem] text-center font-light mt-4 opacity-50 group-hover:opacity-100">
-                      {item.description}
-                    </p>
-                  </div>
-                )
-              })}
-            </div>
+            <ScrollArea.Root className="w-full" type="always">
+              <ScrollArea.Viewport>
+                <div className="w-full flex gap-3 lg:gap-0 lg:justify-between mt-8 lg:mt-14 pl-6 pr-3 lg:pr-0">
+                  {coreItems.map((item) => {
+                    return (
+                      <div
+                        key={item.title}
+                        className="w-[340px] px-10 pt-8 lg:pt-[54px] pb-8 lg:pb-16 rounded-[72px] border border-white lg:border-transparent bg-transparent lg:bg-purple800/30 flex flex-col items-center group hover:cursor-pointer hover:bg-transparent hover:border-white transition duration-500"
+                      >
+                        <h1 className="text-[2.5rem] font-grandstander font-black text-white lg:opacity-50 group-hover:opacity-100">
+                          {item.title}
+                        </h1>
+                        <Image
+                          className="hidden lg:block lg:group-hover:hidden"
+                          src={item.disabledImg}
+                          width={192}
+                          height={174}
+                          alt=""
+                        />
+                        <Image
+                          className="block lg:hidden lg:group-hover:block"
+                          src={item.hoverImg}
+                          width={192}
+                          height={174}
+                          alt=""
+                        />
+                        <p className="leading-tight w-[274px] text-sm lg:text-[1.25rem] text-center font-light mt-4 lg:opacity-50 group-hover:opacity-100">
+                          {item.description}
+                        </p>
+                      </div>
+                    )
+                  })}
+                </div>
+                <ScrollArea.Scrollbar orientation="horizontal" />
+              </ScrollArea.Viewport>
+            </ScrollArea.Root>
           </div>
-          <div className="w-full m-9 flex justify-between items-center">
-            <div className="max-w-[470px] w-full flex flex-col">
-              <h1 className="font-grandstander font-black text-[4.35rem] text-left leading-none">
+          <div className="w-full mt-[104px] flex flex-col lg:flex-row justify-between items-center">
+            <div className="max-w-[303px] lg:max-w-[470px] w-full flex flex-col">
+              <h1 className="font-grandstander font-black text-[2rem] lg:text-[4.35rem] text-left leading-none">
                 TRUE OWNERSHIP
               </h1>
-              <div className="flex flex-col gap-6 text-[1.25rem] mt-9">
+              <div className="flex flex-col gap-6 text-sm lg:text-[1.25rem] mt-2 lg:mt-9 leading-tight">
                 <p>
                   Weird Band is a community-based Web3 project. All WEIRD
                   characters can be obtained as NFTs.
@@ -239,12 +245,14 @@ export default function Home() {
                 </strong>
               </div>
             </div>
-            <Image
-              width={483}
-              height={608}
-              src={kinkyOwnership}
-              alt="Kinky with security shield at hers side"
-            />
+            <div className="w-[323px] h-[500px] lg:w-[483px] lg:h-[608px] mt-10 lg:mt-0">
+              <Image
+                width={483}
+                height={608}
+                src={kinkyOwnership}
+                alt="Kinky with security shield at hers side"
+              />
+            </div>
           </div>
         </div>
       </section>

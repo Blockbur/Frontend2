@@ -110,8 +110,6 @@ export async function getSummary(walletAddress: string) {
       nftsMintedByWallet,
     }
 
-    console.log('maxSupplyPerWallet', maxSupplyPerWallet)
-
     return summary
   }
 }
