@@ -9,7 +9,7 @@ export function Footer() {
   return (
     <footer className="max-w-screen w-full bg-purple300 py-9 text-white">
       <div className="max-w-[393px] lg:max-w-[1120px] px-8 lg:px-0 w-full mx-auto flex flex-col items-center lg:flex-row gap-8 lg:gap-0 justify-between">
-        <div className="max-w-[612px] w-full text-lg underline flex flex-col gap-4 text-center">
+        <div className="max-w-[612px] w-full text-lg underline flex flex-col gap-4 text-center lg:text-left">
           <a
             target="_blank"
             href="https://whitepaper.weirdband.io/weird-bands-weirdpaper/legal/terms-of-use"

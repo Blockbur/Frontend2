@@ -15,15 +15,17 @@ export function Header() {
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
   const headerNav = [
-    { label: 'HOME', href: '#' },
-    { label: 'MINT', href: '#' },
+    { label: 'HOME', href: '/' },
+    { label: 'MINT', href: '/mint' },
     { label: 'WEIRD PAPER', href: '#' },
   ]
 
   return (
     <div className="w-full bg-purple400/70 fixed z-20 text-white">
       <header className="max-w-[393px] lg:max-w-[1120px] w-full mx-auto flex items-center justify-between py-5 px-8 lg:px-0">
-        <Image src={logo} alt="Weirds logo" />
+        <Link href="/">
+          <Image src={logo} alt="Weirds logo" />
+        </Link>
         <nav className="hidden lg:flex">
           <div className="flex items-center gap-16">
             <ul className="flex items-center gap-12">

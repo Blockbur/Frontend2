@@ -30,8 +30,11 @@ import roadmap from '../assets/roadmap.png'
 import * as Accordion from '@radix-ui/react-accordion'
 import * as ScrollArea from '@radix-ui/react-scroll-area'
 import { CaretDown, X } from 'phosphor-react'
+import { useRouter } from 'next/navigation'
 
 export default function Home() {
+  const { push } = useRouter()
+
   const team = [
     {
       photo: caio,
@@ -169,7 +172,10 @@ export default function Home() {
               Each weird character entitles you to be part of an intergalactic
               adventure full of music. Make your own Weird Band and be a Weirdo!
             </p>
-            <button className="text-white font-bold py-2 px-8 rounded-[60px] bg-green500 w-[190px] mt-4">
+            <button
+              onClick={() => push('/mint')}
+              className="text-white font-bold py-2 px-8 rounded-[60px] bg-green500 w-[190px] mt-4"
+            >
               MINT NOW!
             </button>
           </div>
@@ -452,7 +458,10 @@ export default function Home() {
               </footer>
             </div>
           </div>
-          <button className="mt-6 lg:mt-0 text-[2rem] lg:text-[3.15rem] font-extrabold text-white bg-yellow500 hover:bg-yellow600 transition duration-500 rounded-[42px] w-[360px] py-2">
+          <button
+            onClick={() => push('/mint')}
+            className="mt-6 lg:mt-0 text-[2rem] lg:text-[3.15rem] font-extrabold text-white bg-yellow500 hover:bg-yellow600 transition duration-500 rounded-[42px] w-[360px] py-2"
+          >
             MINT NOW
           </button>
         </div>

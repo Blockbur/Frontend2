@@ -138,14 +138,9 @@ export function Minter() {
     const { ethereum } = window
 
     if (ethereum) {
-      console.log('aqui')
-
       const provider = new ethers.BrowserProvider(window.ethereum)
 
-      // MetaMask requires requesting permission to connect users accounts
       const accounts = await provider.send('eth_requestAccounts', [])
-
-      console.log('accc', accounts)
 
       if (accounts.length) {
         const address = accounts[0]
@@ -195,8 +190,6 @@ export function Minter() {
   async function getNFTInitialData(walletAddress: string) {
     const summary = await getSummary(walletAddress)
 
-    console.log('data', summary)
-
     setNft(summary)
   }
 
@@ -217,13 +210,13 @@ export function Minter() {
 
   if (walletAddress) {
     return (
-      <div className="max-w-[328px] lg:max-w-[966px] bg-[#18134E] w-full rounded-[24px] py-12 px-4 lg:px-9 flex flex-col lg:flex-row items-stretch justify-between mx-auto shadow-xl text-white">
+      <div className="max-w-screen lg:max-w-[966px] bg-[#18134E] w-full rounded-[24px] py-12 px-4 lg:px-9 flex flex-col lg:flex-row items-stretch justify-between mx-auto shadow-xl text-white">
         <div className="max-w-[328px] w-full flex flex-col gap-8">
           <div className="w-[357px] flex flex-col gap-2">
             <h1 className="text-[2rem] lg:text-[2.5rem] font-grandstander font-black">
               NFT NAME
             </h1>
-            <p className="font-regular">
+            <p className="text-sm lg:text-base font-regular">
               Heard that sound? Are the Weird Ships arriving on Planet Earth.
               Each one will contain one of the three initial Weirds:{' '}
               <strong className="font-bold">Sneeze, Gulp or Lady Kinky</strong>.
@@ -231,44 +224,63 @@ export function Minter() {
             </p>
           </div>
 
-          <div className="w-full hidden lg:flex flex-col gap-14">
+          <div className="w-full flex flex-row lg:flex-col gap-8 lg:gap-14">
             <ChangeAmountToMint
               maxReached={blockIncreaseNFTsAmounToMint}
               amountOfNftsToMint={amountOfNftsToMint}
               onDecreaseAmount={onDecreaseBuyAmount}
               onIncreaseAmount={onIncreaseBuyAmount}
             />
-            <div className="flex flex-col gap-4 font-medium mt-6">
+            <Image
+              className="lg:hidden w-[200px] h-[200px]"
+              src={nftImage}
+              width={200}
+              height={200}
+              alt="NFT image"
+            />
+            <div className="hidden lg:flex flex-col gap-4 font-medium mt-6">
               <span className="text-gray100 text-lg">
                 Total supply: {nft?.totalNFTsMinted} / {nft?.totalSupply}
               </span>
               {isOnWhitelist || !disableMint ? (
                 <button
                   onClick={onMintNFT}
-                  className="w-[404px] py-4 bg-gradient-to-r from-[#51CE06] via-[#88E553] to-[#C0FDA3] rounded-xl text-lg text-black font-bold disabled:cursor-not-allowed disabled:bg-gray500"
+                  className="w-[329px] lg:w-[404px] py-4 bg-gradient-to-r from-[#51CE06] via-[#88E553] to-[#C0FDA3] rounded-xl text-lg text-black font-bold disabled:cursor-not-allowed disabled:bg-gray500"
                 >
                   MINT ({nft?.nftsMintedByWallet} / {nft?.maxSupplyPerWallet})
                 </button>
               ) : (
-                // <MintButton
-                //   disabled={disableMint}
-                //   walletAddress={walletAddress}
-                //   maxSupplyPerUser={nft?.maxSupplyPerWallet || 0}
-                //   mintedByUserAmount={nft?.nftsMintedByWallet || 0}
-                //   onClick={onMintNFT}
-                //   isMinting={isMinting}
-                // />
                 <button
                   disabled
-                  className="w-[404px] cursor-not-allowed py-4 bg-gradient-to-r from-[#CD7001] to-[#FAA034] rounded-xl text-lg text-white font-bold"
+                  className="w-[329px] lg:w-[404px] cursor-not-allowed py-4 bg-gradient-to-r from-[#CD7001] to-[#FAA034] rounded-xl text-lg text-white font-bold"
                 >
                   MINTING SOON
                 </button>
               )}
             </div>
           </div>
+          <div className="lg:hidden flex flex-col gap-4 font-medium mt-6">
+            <span className="text-gray100 text-lg">
+              Total supply: {nft?.totalNFTsMinted} / {nft?.totalSupply}
+            </span>
+            {isOnWhitelist || !disableMint ? (
+              <button
+                onClick={onMintNFT}
+                className="w-full lg:w-[404px] py-4 bg-gradient-to-r from-[#51CE06] via-[#88E553] to-[#C0FDA3] rounded-xl text-lg text-black font-bold disabled:cursor-not-allowed disabled:bg-gray500"
+              >
+                MINT ({nft?.nftsMintedByWallet} / {nft?.maxSupplyPerWallet})
+              </button>
+            ) : (
+              <button
+                disabled
+                className="w-[329px] lg:w-[404px] cursor-not-allowed py-4 bg-gradient-to-r from-[#CD7001] to-[#FAA034] rounded-xl text-lg text-white font-bold"
+              >
+                MINTING SOON
+              </button>
+            )}
+          </div>
         </div>
-        <div className="flex flex-col gap-8 mt-8 lg:mt-0">
+        <div className="hidden lg:flex flex-col gap-8 mt-8 lg:mt-0">
           <h1 className="text-[3rem] text-center lg:text-end flex items-center gap-3 justify-center lg:justify-end font-bold">
             {(amountOfNftsToMint * 0.01).toFixed(2)} MATIC
           </h1>

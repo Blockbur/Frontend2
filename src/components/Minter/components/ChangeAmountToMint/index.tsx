@@ -25,8 +25,8 @@ export function ChangeAmountToMint({
 
   return (
     <div className="flex flex-col gap-4">
-      <h2 className="text-2xl font-bold">AMOUNT: </h2>
-      <div className="flex item-center gap-4">
+      <h2 className="text-lg lg:text-2xl font-bold">AMOUNT: </h2>
+      <div className="flex item-center gap-2 lg:gap-4">
         <CaretLeft
           onClick={amountOfNftsToMint > 0 ? handleDecreaseBuyAmount : () => {}}
           className={` ${
