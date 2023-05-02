@@ -13,6 +13,8 @@ export function ChangeAmountToMint({
   onIncreaseAmount,
   maxReached,
 }: ChangeAmountToMintProps) {
+  const limitPerMint = amountOfNftsToMint === 3
+
   function handleDecreaseBuyAmount() {
     onDecreaseAmount()
   }
@@ -38,7 +40,7 @@ export function ChangeAmountToMint({
 
         <span className="font-bold text-[32px] px-1">{amountOfNftsToMint}</span>
 
-        {maxReached ? null : (
+        {maxReached || limitPerMint ? null : (
           <CaretRight
             id="increase"
             onClick={handleIncreaseBuyAmount}

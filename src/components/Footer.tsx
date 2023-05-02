@@ -8,40 +8,22 @@ import brand from '@/assets/brand.png'
 export function Footer() {
   return (
     <footer className="max-w-screen w-full bg-purple300 py-9 text-white">
-      <div className="max-w-[1120px] w-full mx-auto flex justify-between items-center">
-        <div className="max-w-[612px] w-full text-[0.65rem]">
-          <p className="italic">Privacy Policy</p>
-          <div className="flex flex-col">
-            <p className="italic">
-              Privacy Policy Your privacy is important to us. It is WEIRD BAND`s
-              policy to respect your privacy regarding any information we may
-              collect from you across our website, WEIRD BAND, and other sites
-              we own and operate.
-            </p>
-            <p className="italic">
-              We only ask for personal information when we truly need it to
-              provide a service to you. We collect it by fair and lawful means,
-              with your knowledge and consent. We also let you know why we’re
-              collecting it and how it will be used.
-            </p>
-            <p className="italic">
-              We only retain collected information for as long as necessary to
-              provide you with your requested service. What data we store, we’ll
-              protect within commercially acceptable means to prevent loss and
-              theft, as well as unauthorised access, disclosure, copying, use or
-              modification.
-            </p>
-            <p className="italic">
-              We don’t share any personally identifying information publicly or
-              with third-parties, except when required to by law. Our website
-              may link to external sites that are not operated by us.
-            </p>
-            <p className="italic">
-              Please be aware that we have no control over the content and
-              practices of these sites, and cannot accept responsibility or
-              liability for their respective privacy policies.
-            </p>
-          </div>
+      <div className="max-w-[393px] lg:max-w-[1120px] px-8 lg:px-0 w-full mx-auto flex flex-col items-center lg:flex-row gap-8 lg:gap-0 justify-between">
+        <div className="max-w-[612px] w-full text-lg underline flex flex-col gap-4 text-center">
+          <a
+            target="_blank"
+            href="https://whitepaper.weirdband.io/weird-bands-weirdpaper/legal/terms-of-use"
+            rel="noreferrer"
+          >
+            Terms of use
+          </a>
+          <a
+            target="_blank"
+            href="https://whitepaper.weirdband.io/weird-bands-weirdpaper/legal/privacy-policy"
+            rel="noreferrer"
+          >
+            Privacy Policy
+          </a>
         </div>
         <div className="flex flex-col items-center gap-2">
           <span className="text-2xl">weirdband@2023</span>
