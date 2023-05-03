@@ -17,7 +17,8 @@ export function Header() {
   const headerNav = [
     { label: 'HOME', href: '/' },
     { label: 'MINT', href: '/mint' },
-    { label: 'WEIRD PAPER', href: '#' },
+    { label: 'WEIRD PAPER', href: 'https://weirdpaper.weirdband.io' },
+    { label: 'MARKETPLACE', href: '#' },
   ]
 
   return (
@@ -31,14 +32,17 @@ export function Header() {
             <ul className="flex items-center gap-12">
               {headerNav.map((item) => {
                 return (
-                  <li className="text-[1.25rem]" key={item.label}>
+                  <li
+                    className="text-[1.25rem] hover:text-purple200 transition duration-300 text-base"
+                    key={item.label}
+                  >
                     <Link href={item.href}>{item.label}</Link>
                   </li>
                 )
               })}
             </ul>
             <div className="flex items-center gap-4">
-              <Link href="#">
+              <Link href="https://twitter.com/WeirdBandNFT">
                 <Image
                   src={twitterLogo}
                   width={24}
@@ -46,7 +50,7 @@ export function Header() {
                   alt="Twitter logo"
                 />
               </Link>
-              <Link href="#">
+              <Link href="https://discord.gg/sgBex4tc7p">
                 <Image
                   src={discordIcon}
                   width={24}
@@ -57,7 +61,12 @@ export function Header() {
             </div>
           </div>
         </nav>
-        <button className="hidden lg:block text-black font-bold py-2 px-8 rounded-[60px] bg-yellow500 shadow-[0_0px_10px_rgba(255,189,46,1)]">
+        <button
+          onClick={() =>
+            window.location.replace('https://discord.gg/sgBex4tc7p')
+          }
+          className="hidden lg:block text-black font-bold py-2 px-8 rounded-[60px] bg-yellow500 shadow-[0_0px_10px_rgba(255,189,46,1)] hover:shadow-[0_0px_20px_rgba(255,189,46,1)] transition duration-300"
+        >
           JOIN US
         </button>
         <div className="lg:hidden">
@@ -89,7 +98,7 @@ export function Header() {
                   })}
                 </ul>
                 <div className="flex items-center gap-4 mt-16">
-                  <Link href="#">
+                  <Link href="https://twitter.com/WeirdBandNFT">
                     <Image
                       src={twitterLogo}
                       width={24}
@@ -97,7 +106,7 @@ export function Header() {
                       alt="Twitter logo"
                     />
                   </Link>
-                  <Link href="#">
+                  <Link href="https://discord.gg/sgBex4tc7p">
                     <Image
                       src={discordIcon}
                       width={24}

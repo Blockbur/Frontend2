@@ -1,3 +1,5 @@
+'use client'
+
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 
@@ -11,6 +13,9 @@ import { ChangeAmountToMint } from './components/ChangeAmountToMint'
 import { ethers } from 'ethers'
 
 import nftImage from '@/assets/mint/nft.png'
+import { Toaster, toast } from 'react-hot-toast'
+import { SuccessAlert } from '../Alerts/Success'
+import { FailAlert } from '../Alerts/Fail'
 
 export interface NFTProps {
   totalSupply: number | undefined
@@ -112,22 +117,29 @@ export function Minter() {
                   'ether',
                 ),
               })
+              toast.custom((t) => <SuccessAlert {...t} />)
             } catch (err) {
-              console.log('err', err)
+              toast.custom((t) => <FailAlert {...t} />)
             }
           } else {
-            await contract.mintNFT(amountOfNftsToMint, {
-              value: ethers.parseUnits(
-                String(amountOfNftsToMint * nftPrice),
-                'ether',
-              ),
-            })
+            try {
+              await contract.mintNFT(amountOfNftsToMint, {
+                value: ethers.parseUnits(
+                  String(amountOfNftsToMint * nftPrice),
+                  'ether',
+                ),
+              })
+              toast.custom((t) => <SuccessAlert {...t} />)
+            } catch (err) {
+              toast.custom((t) => <FailAlert {...t} />)
+            }
           }
         } else {
           setContractEnabled(false)
         }
       } catch (err) {
         console.log(err)
+        toast.custom((t) => <FailAlert {...t} />)
       }
     } else {
       alert("You don't have the metamask extension installed!")
@@ -292,6 +304,7 @@ export function Minter() {
             alt="NFT image"
           />
         </div>
+        <Toaster position="top-right" />
       </div>
     )
   } else {

@@ -288,7 +288,7 @@ export default function Home() {
                           <Image
                             width={368}
                             height={365}
-                            className="hidden group-hover:block group-hover:-translate-y-16 scale-150"
+                            className="hidden group-hover:block group-hover:-translate-y-12 scale-150"
                             src={char.hoverImage}
                             alt=""
                           />
@@ -312,7 +312,10 @@ export default function Home() {
                   <ScrollArea.Scrollbar orientation="horizontal" />
                 </ScrollArea.Viewport>
               </ScrollArea.Root>
-              <button className="text-white text-2xl font-bold py-2 px-8 rounded-[60px] bg-green500 w-[354px] mt-16 hover:bg-opacity-80 transition duration-500">
+              <button
+                onClick={() => push('/mint')}
+                className="text-white text-2xl font-bold py-2 px-8 rounded-[60px] bg-green500 w-[354px] mt-16 hover:bg-opacity-80 transition duration-500"
+              >
                 Check our NFTs
               </button>
             </div>
@@ -335,8 +338,11 @@ export default function Home() {
               Place, a higher rarity background. Are you lucky?
             </p>
           </div>
-          <button className="text-white text-2xl font-bold py-2 px-8 rounded-[60px] bg-green500 w-[320px] lg:w-[354px] mt-8 lg:mt-4 hover:bg-opacity-80 transition duration-500">
-            Are you luck?
+          <button
+            onClick={() => push('/mint')}
+            className="text-white text-2xl font-bold py-2 px-8 rounded-[60px] bg-green500 w-[320px] lg:w-[354px] mt-8 lg:mt-4 hover:bg-opacity-80 transition duration-500"
+          >
+            Are you lucky?
           </button>
         </div>
       </section>

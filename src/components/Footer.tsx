@@ -28,7 +28,7 @@ export function Footer() {
         <div className="flex flex-col items-center gap-2">
           <span className="text-2xl">weirdband@2023</span>
           <div className="flex items-center gap-4">
-            <Link href="#">
+            <Link href="https://twitter.com/WeirdBandNFT">
               <Image
                 src={twitterLogo}
                 width={24}
@@ -36,7 +36,7 @@ export function Footer() {
                 alt="Twitter logo"
               />
             </Link>
-            <Link href="#">
+            <Link href="https://discord.gg/sgBex4tc7p">
               <Image
                 src={discordIcon}
                 width={24}
