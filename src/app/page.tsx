@@ -162,7 +162,7 @@ export default function Home() {
 
   return (
     <div className="w-full text-white lg:bg-notes bg-no-repeat bg-cover">
-      <section className="max-w-screen w-full lg:bg-trees bg-no-repeat bg-cover bg-top h-[898px] px-6 lg:px-0">
+      <section className="max-w-screen w-full lg:bg-trees bg-no-repeat bg-cover bg-top h-[1120px] px-6 lg:px-0">
         <div className="max-w-[393px] lg:max-w-[1120px] w-full mx-auto flex flex-col lg:flex-row items-start lg:items-center gap-10 lg:gap-0 justify-between pt-36 lg:pt-[178px]">
           <div className="w-[245px] lg:w-[452px] flex flex-col">
             <h1 className="text-[2rem] lg:text-[5rem] font-black font-grandstander leading-none">
@@ -182,7 +182,7 @@ export default function Home() {
           <Image width={541} height={491} src={heroImg} alt="" />
         </div>
       </section>
-      <section className="-mt-24 max-w-screen w-full">
+      <section className="-mt-32 max-w-screen w-full">
         <div className="max-w-fit lg:max-w-[1140px] w-full mx-auto">
           <div className="w-full flex flex-col">
             <div className="w-[343px] lg:w-[680px] mx-auto text-center px-6 lg:px-0">
