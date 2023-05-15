@@ -31,6 +31,7 @@ import * as Accordion from '@radix-ui/react-accordion'
 import * as ScrollArea from '@radix-ui/react-scroll-area'
 import { CaretDown, X } from 'phosphor-react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 export default function Home() {
   const { push } = useRouter()
@@ -39,17 +40,20 @@ export default function Home() {
     {
       photo: caio,
       name: 'CAIO GRILO',
-      role: 'CCO / Co-founder ',
+      role: 'CCO / Co-founder',
+      linkedin: 'https://www.linkedin.com/in/caio-grilo-36b365211/',
     },
     {
       photo: breno,
       name: 'BRENO MAZZA',
-      role: 'CEO / Co-founder ',
+      role: 'CEO / Co-founder',
+      linkedin: 'https://www.linkedin.com/in/breno-mazza-966823111/',
     },
     {
       photo: gabriel,
       name: 'GABRIEL SALOMÃO',
-      role: 'COO / Co-founder ',
+      role: 'COO / Co-founder',
+      linkedin: 'https://www.linkedin.com/in/g-salomao/',
     },
   ]
 
@@ -390,24 +394,23 @@ export default function Home() {
           <div className="hidden lg:flex w-full justify-between mt-14">
             {team.map((member) => {
               return (
-                <div
-                  className="group relative h-[380px] w-[344px] cursor-pointer"
-                  key={member.name}
-                >
-                  <Image
-                    className="group-hover:opacity-30"
-                    src={member.photo}
-                    alt=""
-                  />
-                  <div className="hidden group-hover:flex absolute left-12 right-12 top-24 flex-col items-center gap-4 text-center">
-                    <h1 className="text-[3.15rem] uppercase font-extrabold leading-none">
-                      {member.name}
-                    </h1>
-                    <span className="text-[1.25rem] font-extrabold">
-                      {member.role}
-                    </span>
+                <Link href={member.linkedin} target="_blank" key={member.name}>
+                  <div className="group relative h-[380px] w-[344px] cursor-pointer">
+                    <Image
+                      className="group-hover:opacity-30"
+                      src={member.photo}
+                      alt=""
+                    />
+                    <div className="hidden group-hover:flex absolute left-12 right-12 top-24 flex-col items-center gap-4 text-center">
+                      <h1 className="text-[3.15rem] uppercase font-extrabold leading-none">
+                        {member.name}
+                      </h1>
+                      <span className="text-[1.25rem] font-extrabold">
+                        {member.role}
+                      </span>
+                    </div>
                   </div>
-                </div>
+                </Link>
               )
             })}
           </div>

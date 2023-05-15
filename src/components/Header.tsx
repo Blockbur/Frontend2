@@ -17,7 +17,7 @@ export function Header() {
   const headerNav = [
     { label: 'HOME', href: '/' },
     { label: 'MINT', href: '/mint' },
-    { label: 'WEIRD PAPER', href: 'https://weirdpaper.weirdband.io' },
+    { label: 'WEIRD PAPER', href: 'https://paper.weirdband.io/' },
     { label: 'MARKETPLACE', href: '#' },
   ]
 

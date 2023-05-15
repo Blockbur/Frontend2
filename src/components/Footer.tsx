@@ -12,14 +12,14 @@ export function Footer() {
         <div className="max-w-[612px] w-full text-lg underline flex flex-col gap-4 text-center lg:text-left">
           <a
             target="_blank"
-            href="https://whitepaper.weirdband.io/weird-bands-weirdpaper/legal/terms-of-use"
+            href="https://paper.weirdband.io/legal/terms-of-use"
             rel="noreferrer"
           >
             Terms of use
           </a>
           <a
             target="_blank"
-            href="https://whitepaper.weirdband.io/weird-bands-weirdpaper/legal/privacy-policy"
+            href="https://paper.weirdband.io/legal/privacy-policy"
             rel="noreferrer"
           >
             Privacy Policy
