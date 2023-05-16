@@ -48,8 +48,9 @@ export function Minter() {
   const maxSupplyPerUserReached =
     nft?.nftsMintedByWallet === nft?.maxSupplyPerWallet
 
-  const disableMint =
-    !contractIsEnabled || maxSupplyReached || maxSupplyPerUserReached
+  const disableMint = isWhitelistOn
+    ? !contractIsEnabled || maxSupplyReached || maxSupplyPerUserReached
+    : false
 
   const rpcUrl = process.env.NEXT_PUBLIC_RPC_URL
   const chainId = process.env.NEXT_PUBLIC_CHAIN_ID
@@ -238,6 +239,7 @@ export function Minter() {
 
           <div className="w-full flex flex-row lg:flex-col gap-8 lg:gap-14">
             <ChangeAmountToMint
+              isWhitelistOn={isWhitelistOn}
               maxReached={blockIncreaseNFTsAmounToMint}
               amountOfNftsToMint={amountOfNftsToMint}
               onDecreaseAmount={onDecreaseBuyAmount}
@@ -254,7 +256,7 @@ export function Minter() {
               <span className="text-gray100 text-lg">
                 Total supply: {nft?.totalNFTsMinted} / {nft?.totalSupply}
               </span>
-              {isOnWhitelist || !disableMint ? (
+              {!disableMint ? (
                 <button
                   onClick={onMintNFT}
                   className="w-[329px] lg:w-[404px] py-4 bg-gradient-to-r from-[#51CE06] via-[#88E553] to-[#C0FDA3] rounded-xl text-lg text-black font-bold disabled:cursor-not-allowed disabled:bg-gray500"
@@ -275,7 +277,7 @@ export function Minter() {
             <span className="text-gray100 text-lg">
               Total supply: {nft?.totalNFTsMinted} / {nft?.totalSupply}
             </span>
-            {isOnWhitelist || !disableMint ? (
+            {!disableMint ? (
               <button
                 onClick={onMintNFT}
                 className="w-full lg:w-[404px] py-4 bg-gradient-to-r from-[#51CE06] via-[#88E553] to-[#C0FDA3] rounded-xl text-lg text-black font-bold disabled:cursor-not-allowed disabled:bg-gray500"

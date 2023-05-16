@@ -3,6 +3,7 @@ import { CaretLeft, CaretRight } from 'phosphor-react'
 interface ChangeAmountToMintProps {
   amountOfNftsToMint: number
   maxReached: boolean
+  isWhitelistOn: boolean
   onIncreaseAmount: () => void
   onDecreaseAmount: () => void
 }
@@ -12,6 +13,7 @@ export function ChangeAmountToMint({
   onDecreaseAmount,
   onIncreaseAmount,
   maxReached,
+  isWhitelistOn,
 }: ChangeAmountToMintProps) {
   const limitPerMint = amountOfNftsToMint === 3
 
@@ -40,7 +42,7 @@ export function ChangeAmountToMint({
 
         <span className="font-bold text-[32px] px-1">{amountOfNftsToMint}</span>
 
-        {maxReached || limitPerMint ? null : (
+        {(maxReached || limitPerMint) && isWhitelistOn ? null : (
           <CaretRight
             id="increase"
             onClick={handleIncreaseBuyAmount}
