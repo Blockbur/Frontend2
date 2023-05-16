@@ -27,7 +27,6 @@ export interface NFTProps {
 export function Minter() {
   const [nft, setNft] = useState<NFTProps>()
 
-  const [isOnWhitelist, setIsOnWhitelist] = useState<boolean>(false)
   const [isWhitelistOn, setIsWhitelistOn] = useState<boolean>(false)
   const [signature, setSignature] = useState<string>('')
 
@@ -90,11 +89,8 @@ export function Minter() {
       await fetch(url, config)
         .then((res) => res.json())
         .then((res) => {
-          if (res.error === 'Address does not allowed in whitelist') {
-            setIsOnWhitelist(false)
-          } else {
+          if (res.error !== 'Address does not allowed in whitelist') {
             setSignature(res.result)
-            setIsOnWhitelist(true)
           }
         })
     }
@@ -124,7 +120,7 @@ export function Minter() {
             }
           } else {
             try {
-              await contract.mintNFT(amountOfNftsToMint, {
+              await contract.mintNFT(amountOfNftsToMint, '0x', {
                 value: ethers.parseUnits(
                   String(amountOfNftsToMint * nftPrice),
                   'ether',
@@ -132,6 +128,7 @@ export function Minter() {
               })
               toast.custom((t) => <SuccessAlert {...t} />)
             } catch (err) {
+              console.log('err', err)
               toast.custom((t) => <FailAlert {...t} />)
             }
           }

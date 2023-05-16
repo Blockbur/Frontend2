@@ -25,6 +25,8 @@ export function ChangeAmountToMint({
     onIncreaseAmount()
   }
 
+  const max = isWhitelistOn ? maxReached || limitPerMint : limitPerMint
+
   return (
     <div className="flex flex-col gap-4">
       <h2 className="text-lg lg:text-2xl font-bold">AMOUNT: </h2>
@@ -42,7 +44,7 @@ export function ChangeAmountToMint({
 
         <span className="font-bold text-[32px] px-1">{amountOfNftsToMint}</span>
 
-        {(maxReached || limitPerMint) && isWhitelistOn ? null : (
+        {max ? null : (
           <CaretRight
             id="increase"
             onClick={handleIncreaseBuyAmount}
