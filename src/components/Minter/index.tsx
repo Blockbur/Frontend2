@@ -49,7 +49,7 @@ export function Minter() {
 
   const disableMint = isWhitelistOn
     ? !contractIsEnabled || maxSupplyReached || maxSupplyPerUserReached
-    : false
+    : maxSupplyReached
 
   const rpcUrl = process.env.NEXT_PUBLIC_RPC_URL
   const chainId = process.env.NEXT_PUBLIC_CHAIN_ID
