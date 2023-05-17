@@ -3,10 +3,15 @@ import React from 'react'
 import './globals.css'
 import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
+import { Metadata } from 'next'
 
-export const metadata = {
-  title: 'Weirds',
-  description: 'Welcome to Weirds Band',
+export const metadata: Metadata = {
+  title: 'Weird Band',
+  description:
+    'Weird Band is a cross media brand that combines music, cartoons and games',
+  icons: {
+    icon: '/favicon.png',
+  },
 }
 
 export default function RootLayout({
