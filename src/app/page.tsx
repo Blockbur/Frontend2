@@ -471,7 +471,7 @@ export default function Home() {
             onClick={() => push('/mint')}
             className="mt-6 lg:mt-0 text-[2rem] lg:text-[3.15rem] font-extrabold text-white bg-yellow500 hover:bg-yellow600 transition duration-500 rounded-[42px] w-[360px] py-2"
           >
-            CHECK THE MINT PAGE!
+            Check the mint page!
           </button>
         </div>
       </section>
