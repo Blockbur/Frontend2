@@ -178,7 +178,7 @@ export default function Home() {
             </p>
             <button
               onClick={() => push('/mint')}
-              className="text-white font-bold py-2 px-8 rounded-[60px] bg-green500 w-[190px] mt-4"
+              className="text-white font-bold py-2 px-8 rounded-[60px] bg-green500 w-[354px] mt-4"
             >
               MINT IS COMING...
             </button>
