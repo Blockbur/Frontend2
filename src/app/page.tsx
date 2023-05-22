@@ -462,7 +462,7 @@ export default function Home() {
               </p>
               <footer>
                 <span className="text-sm lg:text-lg">
-                  *Only users on the Whitelist will be able to Mint.
+                  *Join the Discord community to know more about Whitelisting.
                 </span>
               </footer>
             </div>
