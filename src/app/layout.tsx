@@ -10,9 +10,13 @@ export const metadata: Metadata = {
   description:
     'Weird Band is a cross media brand that combines music, cartoons and games',
   icons: {
-    icon: '/favicon.jpg',
+    icon: "/favicon.png",
   },
-}
+  twitter: {
+    card: "summary",
+    images: "/twitterIcon.jpg",
+  },
+};
 
 export default function RootLayout({
   children,
