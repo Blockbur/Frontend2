@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     card: 'summary',
     images: '/twitterIcon.jpg',
   },
-};
+}
 
 export default function RootLayout({
   children,
