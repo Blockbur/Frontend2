@@ -10,11 +10,11 @@ export const metadata: Metadata = {
   description:
     'Weird Band is a cross media brand that combines music, cartoons and games',
   icons: {
-    icon: "/favicon.png",
+    icon: '/favicon.png',
   },
   twitter: {
-    card: "summary",
-    images: "/twitterIcon.jpg",
+    card: 'summary',
+    images: '/twitterIcon.jpg',
   },
 };
 
