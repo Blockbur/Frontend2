@@ -361,7 +361,9 @@ export default function Home() {
               Weird Band Rhythm Game. Carve your way to fame and compete for
               awesome prizes in our 1st game!
             </p>
-            <Image className="w-full" src={conceptImage} alt="Game concept" />
+            <div className="mt-3 flex justify-center">
+              <Image className="w-[85%]" src={conceptImage} alt="Game concept" />
+            </div>
             <footer>
               <span className="text-[0.675rem] lg:text-[1.25rem]">
                 *Splash art to display the concept. Not actual game footage.
