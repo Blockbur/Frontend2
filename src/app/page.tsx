@@ -362,7 +362,11 @@ export default function Home() {
               awesome prizes in our 1st game!
             </p>
             <div className="mt-3 flex justify-center">
-              <Image className="w-[85%]" src={conceptImage} alt="Game concept" />
+              <Image
+                className="w-[85%]"
+                src={conceptImage}
+                alt="Game concept"
+              />
             </div>
             <footer>
               <span className="text-[0.675rem] lg:text-[1.25rem]">
