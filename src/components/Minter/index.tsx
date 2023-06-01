@@ -12,7 +12,6 @@ import { ChangeAmountToMint } from './components/ChangeAmountToMint'
 
 import { ethers } from 'ethers'
 
-import nftImage from '@/assets/mint/nft.png'
 import { Toaster, toast } from 'react-hot-toast'
 import { SuccessAlert } from '../Alerts/Success'
 import { FailAlert } from '../Alerts/Fail'
@@ -243,11 +242,11 @@ export function Minter() {
               onIncreaseAmount={onIncreaseBuyAmount}
             />
             <Image
-              className="lg:hidden w-[200px] h-[200px]"
-              src={nftImage}
+              className="lg:hidden w-[200px] h-[200px] rounded-xl"
+              src="https://parsefiles.back4app.com/Xz46bQ1hZnI5ErWIEhhre7zlNXlXxRIzFZjt5t21/38710de70980aa73a5209c78f4c219c2_placeholder_ship.gif"
               width={200}
               height={200}
-              alt="NFT image"
+              alt="NFT Gif"
             />
             <div className="hidden lg:flex flex-col gap-4 font-medium mt-6">
               <span className="text-gray100 text-lg">
@@ -296,11 +295,11 @@ export function Minter() {
             {(amountOfNftsToMint * 0.01).toFixed(2)} MATIC
           </h1>
           <Image
-            className="mt-auto w-[400px] h-[400px]"
-            src={nftImage}
+            className="mt-auto w-[400px] h-[400px] rounded-xl"
+            src="https://parsefiles.back4app.com/Xz46bQ1hZnI5ErWIEhhre7zlNXlXxRIzFZjt5t21/38710de70980aa73a5209c78f4c219c2_placeholder_ship.gif"
             width={403}
             height={403}
-            alt="NFT image"
+            alt="NFT Gif"
           />
         </div>
         <Toaster position="top-right" />
