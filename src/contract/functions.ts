@@ -13,7 +13,7 @@ async function convertFromBigIntToInteger(number: any) {
 
 export async function instantiteContractWithRpcUrl() {
   const provider = new ethers.JsonRpcProvider(
-    'https://polygon-mumbai.g.alchemy.com/v2/6XFcpiY-OYMhStUfVvVuYdPUMyeQOZbW',
+    "https://polygon-mainnet.g.alchemy.com/v2/na34V2wPZksuxFnkFxeebWVexYWG_SnR",
   )
 
   const contractInstance = new ethers.Contract(
