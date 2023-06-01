@@ -178,9 +178,9 @@ export default function Home() {
             </p>
             <button
               onClick={() => push('/mint')}
-              className="text-white font-bold py-2 px-8 rounded-[60px] bg-green500 w-[190px] mt-4"
+              className="text-white font-bold py-2 px-8 rounded-[60px] bg-green500 w-[240px] mt-4"
             >
-              MINT NOW!
+              MINT IS COMING...
             </button>
           </div>
           <Image width={541} height={491} src={heroImg} alt="" />
@@ -361,7 +361,13 @@ export default function Home() {
               Weird Band Rhythm Game. Carve your way to fame and compete for
               awesome prizes in our 1st game!
             </p>
-            <Image className="w-full" src={conceptImage} alt="Game concept" />
+            <div className="mt-3 flex justify-center">
+              <Image
+                className="w-[85%]"
+                src={conceptImage}
+                alt="Game concept"
+              />
+            </div>
             <footer>
               <span className="text-[0.675rem] lg:text-[1.25rem]">
                 *Splash art to display the concept. Not actual game footage.
@@ -462,7 +468,7 @@ export default function Home() {
               </p>
               <footer>
                 <span className="text-sm lg:text-lg">
-                  *Only users on the Whitelist will be able to Mint.
+                  *Join the Discord community to know more about Whitelisting.
                 </span>
               </footer>
             </div>
@@ -471,7 +477,7 @@ export default function Home() {
             onClick={() => push('/mint')}
             className="mt-6 lg:mt-0 text-[2rem] lg:text-[3.15rem] font-extrabold text-white bg-yellow500 hover:bg-yellow600 transition duration-500 rounded-[42px] w-[360px] py-2"
           >
-            MINT NOW
+            Check the mint page!
           </button>
         </div>
       </section>
