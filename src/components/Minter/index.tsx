@@ -223,7 +223,7 @@ export function Minter() {
         <div className="max-w-[328px] w-full flex flex-col gap-8">
           <div className="w-[357px] flex flex-col gap-2">
             <h1 className="text-[2rem] lg:text-[2.5rem] font-grandstander font-black">
-              NFT NAME
+              Stolen Ship
             </h1>
             <p className="text-sm lg:text-base font-regular">
               Heard that sound? Are the Weird Ships arriving on Planet Earth.
