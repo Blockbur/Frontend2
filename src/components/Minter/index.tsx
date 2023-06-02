@@ -12,7 +12,6 @@ import { ChangeAmountToMint } from './components/ChangeAmountToMint'
 
 import { ethers } from 'ethers'
 
-import nftImage from '@/assets/mint/nft.png'
 import { Toaster, toast } from 'react-hot-toast'
 import { SuccessAlert } from '../Alerts/Success'
 import { FailAlert } from '../Alerts/Fail'
@@ -34,7 +33,7 @@ export function Minter() {
   const [walletAddress, setWalletAddress] = useState<string>('')
   const [contractIsEnabled, setContractEnabled] = useState<boolean>(true)
 
-  const nftPrice = 0.01
+  const nftPrice = isWhitelistOn ? 38 : 42
 
   const blockIncreaseNFTsAmounToMint =
     Number(nft?.totalNFTsMinted) + amountOfNftsToMint ===
@@ -224,7 +223,7 @@ export function Minter() {
         <div className="max-w-[328px] w-full flex flex-col gap-8">
           <div className="w-[357px] flex flex-col gap-2">
             <h1 className="text-[2rem] lg:text-[2.5rem] font-grandstander font-black">
-              NFT NAME
+              Stolen Ship
             </h1>
             <p className="text-sm lg:text-base font-regular">
               Heard that sound? Are the Weird Ships arriving on Planet Earth.
@@ -243,11 +242,11 @@ export function Minter() {
               onIncreaseAmount={onIncreaseBuyAmount}
             />
             <Image
-              className="lg:hidden w-[200px] h-[200px]"
-              src={nftImage}
+              className="lg:hidden w-[200px] h-[200px] rounded-xl"
+              src="https://parsefiles.back4app.com/Xz46bQ1hZnI5ErWIEhhre7zlNXlXxRIzFZjt5t21/38710de70980aa73a5209c78f4c219c2_placeholder_ship.gif"
               width={200}
               height={200}
-              alt="NFT image"
+              alt="NFT Gif"
             />
             <div className="hidden lg:flex flex-col gap-4 font-medium mt-6">
               <span className="text-gray100 text-lg">
@@ -293,14 +292,17 @@ export function Minter() {
         </div>
         <div className="hidden lg:flex flex-col gap-8 mt-8 lg:mt-0">
           <h1 className="text-[3rem] text-center lg:text-end flex items-center gap-3 justify-center lg:justify-end font-bold">
-            {(amountOfNftsToMint * 0.01).toFixed(2)} MATIC
+            {isWhitelistOn
+              ? (amountOfNftsToMint * 38).toFixed(2)
+              : (amountOfNftsToMint * 42).toFixed(2)}
+            MATIC
           </h1>
           <Image
-            className="mt-auto w-[400px] h-[400px]"
-            src={nftImage}
+            className="mt-auto w-[400px] h-[400px] rounded-xl"
+            src="https://parsefiles.back4app.com/Xz46bQ1hZnI5ErWIEhhre7zlNXlXxRIzFZjt5t21/38710de70980aa73a5209c78f4c219c2_placeholder_ship.gif"
             width={403}
             height={403}
-            alt="NFT image"
+            alt="NFT Gif"
           />
         </div>
         <Toaster position="top-right" />
