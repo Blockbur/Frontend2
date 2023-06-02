@@ -114,8 +114,14 @@ export function Minter() {
                 ),
               })
               toast.custom((t) => <SuccessAlert {...t} />)
-            } catch (err) {
-              toast.custom((t) => <FailAlert {...t} />)
+            } catch (err: any) {
+              if (err.message.includes('insufficient funds')) {
+                toast.custom((t) => (
+                  <FailAlert {...t} message={'Insuficient funds.'} />
+                ))
+              } else {
+                toast.custom((t) => <FailAlert {...t} />)
+              }
             }
           } else {
             try {
@@ -126,9 +132,15 @@ export function Minter() {
                 ),
               })
               toast.custom((t) => <SuccessAlert {...t} />)
-            } catch (err) {
+            } catch (err: any) {
               console.log('err', err)
-              toast.custom((t) => <FailAlert {...t} />)
+              if (err.message.includes('insufficient funds')) {
+                toast.custom((t) => (
+                  <FailAlert {...t} message={'Insuficient funds.'} />
+                ))
+              } else {
+                toast.custom((t) => <FailAlert {...t} />)
+              }
             }
           }
         } else {

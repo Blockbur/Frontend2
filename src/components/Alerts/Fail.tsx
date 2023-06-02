@@ -1,7 +1,11 @@
 import { X } from 'phosphor-react'
 import { Toast } from 'react-hot-toast'
 
-export function FailAlert(t: Toast) {
+interface FailAlertProps {
+  message?: string
+}
+
+export function FailAlert(t: Toast, { message }: FailAlertProps) {
   return (
     <div
       className={`${
@@ -12,7 +16,7 @@ export function FailAlert(t: Toast) {
         <X size={18} weight="bold" className="text-red-900" />
       </div>
       <span className="text-sm font-light">
-        An error ocurred while trying to mint your NFT.
+        {message || 'An error ocurred while trying to mint your NFT.'}
       </span>
     </div>
   )
