@@ -180,7 +180,7 @@ export default function Home() {
               onClick={() => push('/mint')}
               className="text-white font-bold py-2 px-8 rounded-[60px] bg-green500 w-[240px] mt-4"
             >
-              MINT IS COMING...
+              MINT NOW!
             </button>
           </div>
           <Image width={541} height={491} src={heroImg} alt="" />
@@ -477,7 +477,7 @@ export default function Home() {
             onClick={() => push('/mint')}
             className="mt-6 lg:mt-0 text-[2rem] lg:text-[3.15rem] font-extrabold text-white bg-yellow500 hover:bg-yellow600 transition duration-500 rounded-[42px] w-[360px] py-2"
           >
-            Check the mint page!
+            MINT NOW!
           </button>
         </div>
       </section>
