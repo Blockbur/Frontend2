@@ -33,7 +33,7 @@ export function Minter() {
   const [walletAddress, setWalletAddress] = useState<string>('')
   const [contractIsEnabled, setContractEnabled] = useState<boolean>(true)
 
-  const nftPrice = isWhitelistOn ? 38 : 42
+  const nftPrice = isWhitelistOn ? 38 : 38
 
   const blockIncreaseNFTsAmounToMint =
     Number(nft?.totalNFTsMinted) + amountOfNftsToMint ===
@@ -294,7 +294,7 @@ export function Minter() {
           <h1 className="text-[3rem] text-center lg:text-end flex items-center gap-3 justify-center lg:justify-end font-bold">
             {isWhitelistOn
               ? (amountOfNftsToMint * 38).toFixed(2)
-              : (amountOfNftsToMint * 42).toFixed(2)}
+              : (amountOfNftsToMint * 38).toFixed(2)}
             MATIC
           </h1>
           <Image
