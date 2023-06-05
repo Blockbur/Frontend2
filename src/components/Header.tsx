@@ -18,7 +18,7 @@ export function Header() {
     { label: 'HOME', href: '/' },
     { label: 'MINT', href: '/mint' },
     { label: 'WEIRD PAPER', href: 'https://paper.weirdband.io/' },
-    { label: 'MARKETPLACE', href: '#' },
+    { label: 'MARKETPLACE', href: 'https://opensea.io/collection/weird-band' },
   ]
 
   return (
