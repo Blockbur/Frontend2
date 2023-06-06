@@ -276,7 +276,7 @@ export function Minter() {
                   disabled
                   className="w-[329px] lg:w-[404px] cursor-not-allowed py-4 bg-gradient-to-r from-[#CD7001] to-[#FAA034] rounded-xl text-lg text-white font-bold"
                 >
-                  MINTING SOON
+                  MINT OUT
                 </button>
               )}
             </div>
@@ -297,7 +297,7 @@ export function Minter() {
                 disabled
                 className="w-[329px] lg:w-[404px] cursor-not-allowed py-4 bg-gradient-to-r from-[#CD7001] to-[#FAA034] rounded-xl text-lg text-white font-bold"
               >
-                MINTING SOON
+                MINT OUT
               </button>
             )}
           </div>
